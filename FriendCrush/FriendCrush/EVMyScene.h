@@ -2,12 +2,17 @@
 //  EVMyScene.h
 //  FriendCrush
 //
-
 //  Copyright (c) 2014 Erik van der Neut. All rights reserved.
 //
 
-#import <SpriteKit/SpriteKit.h>
+@import SpriteKit;
+
+@class EVLevel;
 
 @interface EVMyScene : SKScene
+
+@property (strong, nonatomic) EVLevel *level;
+
+-(void)addSpritesForFriends:(NSSet *)friends;
 
 @end

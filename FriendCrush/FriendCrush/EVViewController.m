@@ -8,6 +8,14 @@
 
 #import "EVViewController.h"
 #import "EVMyScene.h"
+#import "EVLevel.h"
+
+@interface EVViewController()
+
+@property (strong, nonatomic) EVLevel *level;
+@property (strong, nonatomic) EVMyScene *scene;
+
+@end
 
 @implementation EVViewController
 
@@ -15,18 +23,42 @@
 {
     [super viewDidLoad];
 
-    // Configure the view.
+    // Configure the view:
     SKView * skView = (SKView *)self.view;
     skView.showsFPS = YES;
     skView.showsNodeCount = YES;
+    skView.multipleTouchEnabled = NO;
     
-    // Create and configure the scene.
-    SKScene * scene = [EVMyScene sceneWithSize:skView.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
+    // Create and configure the scene:
+    self.scene = [EVMyScene sceneWithSize:skView.bounds.size];
+    self.scene.scaleMode = SKSceneScaleModeAspectFill;
     
-    // Present the scene.
-    [skView presentScene:scene];
+    // Load the level:
+    self.level = [[EVLevel alloc] init];
+    self.scene.level = self.level;
+    
+    // Present the scene:
+    [skView presentScene:self.scene];
+    
+    // Start the game:
+    [self beginGame];
 }
+
+
+#pragma mark - Game methods
+
+-(void)beginGame
+{
+    [self shuffle];
+}
+
+-(void)shuffle
+{
+    NSSet *newFriends = [self.level shuffle];
+    [self.scene addSpritesForFriends:newFriends];
+}
+
+#pragma mark - Misc.
 
 - (BOOL)shouldAutorotate
 {
