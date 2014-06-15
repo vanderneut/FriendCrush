@@ -232,7 +232,7 @@ static const CGFloat TileHeight = 36.0;
     
     SKAction *moveA = [SKAction moveTo:swap.friendB.sprite.position duration:Duration];
     moveA.timingMode = SKActionTimingEaseOut;
-    [swap.friendA.sprite runAction:[SKAction sequence:@[moveA, [SKAction runBlock:completion]]]];
+    [swap.friendA.sprite runAction:moveA completion:completion];
     
     SKAction *moveB = [SKAction moveTo:swap.friendA.sprite.position duration:Duration];
     moveB.timingMode = SKActionTimingEaseOut;
