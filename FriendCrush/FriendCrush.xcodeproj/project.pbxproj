@@ -24,6 +24,7 @@
 		031CE3D4194BEB6A00DEC43B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 031CE3D2194BEB6A00DEC43B /* InfoPlist.strings */; };
 		031CE3D6194BEB6A00DEC43B /* FriendCrushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 031CE3D5194BEB6A00DEC43B /* FriendCrushTests.m */; };
 		031CE3E0194BEC0700DEC43B /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 031CE3DF194BEC0700DEC43B /* Sprites.atlas */; };
+		034864C4194DBFE4006FB717 /* EVSwap.m in Sources */ = {isa = PBXBuildFile; fileRef = 034864C3194DBFE4006FB717 /* EVSwap.m */; };
 		03DF9B85194BF4B100B136C8 /* EVFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B84194BF4B100B136C8 /* EVFriend.m */; };
 		03DF9B88194BF84900B136C8 /* EVLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B87194BF84900B136C8 /* EVLevel.m */; };
 		03DF9B8A194C09E400B136C8 /* Levels in Resources */ = {isa = PBXBuildFile; fileRef = 03DF9B89194C09E400B136C8 /* Levels */; };
@@ -64,6 +65,8 @@
 		031CE3D3194BEB6A00DEC43B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		031CE3D5194BEB6A00DEC43B /* FriendCrushTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendCrushTests.m; sourceTree = "<group>"; };
 		031CE3DF194BEC0700DEC43B /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
+		034864C2194DBFE4006FB717 /* EVSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSwap.h; sourceTree = "<group>"; };
+		034864C3194DBFE4006FB717 /* EVSwap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSwap.m; sourceTree = "<group>"; };
 		03DF9B83194BF4B100B136C8 /* EVFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFriend.h; sourceTree = "<group>"; };
 		03DF9B84194BF4B100B136C8 /* EVFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFriend.m; sourceTree = "<group>"; };
 		03DF9B86194BF84900B136C8 /* EVLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVLevel.h; sourceTree = "<group>"; };
@@ -149,6 +152,8 @@
 				03DF9B87194BF84900B136C8 /* EVLevel.m */,
 				03DF9B8B194C0A4C00B136C8 /* EVTile.h */,
 				03DF9B8C194C0A4C00B136C8 /* EVTile.m */,
+				034864C2194DBFE4006FB717 /* EVSwap.h */,
+				034864C3194DBFE4006FB717 /* EVSwap.m */,
 			);
 			path = FriendCrush;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				031CE3BC194BEB6A00DEC43B /* EVViewController.m in Sources */,
+				034864C4194DBFE4006FB717 /* EVSwap.m in Sources */,
 				03DF9B88194BF84900B136C8 /* EVLevel.m in Sources */,
 				03DF9B8D194C0A4D00B136C8 /* EVTile.m in Sources */,
 				031CE3BF194BEB6A00DEC43B /* EVMyScene.m in Sources */,

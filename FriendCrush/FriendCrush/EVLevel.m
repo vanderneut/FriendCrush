@@ -144,4 +144,24 @@ EVTile *_tiles[NumColumns][NumRows];
     return dictionary;
 }
 
+#pragma mark - Animation:
+
+-(void)performSwap:(EVSwap *)swap
+{
+    // Makes the swap in the data model
+    
+    NSInteger columnA = swap.friendA.column;
+    NSInteger rowA    = swap.friendA.row;
+    NSInteger columnB = swap.friendB.column;
+    NSInteger rowB    = swap.friendB.row;
+    
+    _friends[columnA][rowA] = swap.friendB;
+    swap.friendB.column = columnA;
+    swap.friendB.row    = rowA;
+    
+    _friends[columnB][rowB] = swap.friendA;
+    swap.friendA.column = columnB;
+    swap.friendA.row    = rowB;
+}
+
 @end

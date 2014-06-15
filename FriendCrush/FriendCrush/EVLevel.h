@@ -8,6 +8,7 @@
 
 #import "EVFriend.h"
 #import "EVTile.h"
+#import "EVSwap.h"
 
 static const NSInteger NumColumns = 9;
 static const NSInteger NumRows = 9;
@@ -23,5 +24,7 @@ static const NSInteger NumRows = 9;
 
 -(EVTile *)tileAtColumn:(NSInteger)column
                  andRow:(NSInteger)row;
+
+-(void)performSwap:(EVSwap *)swap;
 
 @end

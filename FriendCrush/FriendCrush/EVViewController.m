@@ -38,6 +38,18 @@
     self.scene.level = self.level;
     [self.scene addTiles];
     
+    id block = ^(EVSwap *swap)
+    {
+        self.view.userInteractionEnabled = NO;
+        
+        [self.level performSwap:swap];
+        [self.scene animateSwap:swap completion:^
+        {
+            self.view.userInteractionEnabled = YES;
+        }];
+    };
+    self.scene.swipeHandler = block;
+    
     // Present the scene:
     [skView presentScene:self.scene];
     

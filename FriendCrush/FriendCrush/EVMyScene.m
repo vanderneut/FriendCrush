@@ -9,6 +9,7 @@
 #import "EVMyScene.h"
 #import "EVFriend.h"
 #import "EVLevel.h"
+#import "EVSwap.h"
 
 static const CGFloat TileWidth  = 32.0;
 static const CGFloat TileHeight = 36.0;
@@ -210,6 +211,32 @@ static const CGFloat TileHeight = 36.0;
     EVFriend *fromFriend = [self.level friendAtColumn:self.swipeFromColumn andRow:self.swipeFromRow];
     
     NSLog(@"Swapping %@ with %@...", fromFriend, toFriend);
+    
+    if (self.swipeHandler)
+    {
+        EVSwap *swap = [[EVSwap alloc] init];
+        swap.friendA = fromFriend;
+        swap.friendB = toFriend;
+        
+        self.swipeHandler(swap);
+    }
+}
+
+-(void)animateSwap:(EVSwap *)swap completion:(dispatch_block_t)completion
+{
+    // Place the starting friend on top:
+    swap.friendA.sprite.zPosition = 100;
+    swap.friendB.sprite.zPosition = 90;
+    
+    const NSTimeInterval Duration = 0.2;
+    
+    SKAction *moveA = [SKAction moveTo:swap.friendB.sprite.position duration:Duration];
+    moveA.timingMode = SKActionTimingEaseOut;
+    [swap.friendA.sprite runAction:[SKAction sequence:@[moveA, [SKAction runBlock:completion]]]];
+    
+    SKAction *moveB = [SKAction moveTo:swap.friendA.sprite.position duration:Duration];
+    moveB.timingMode = SKActionTimingEaseOut;
+    [swap.friendB.sprite runAction:moveB];
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
