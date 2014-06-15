@@ -89,7 +89,22 @@ EVTile *_tiles[NumColumns][NumRows];
         {
             if ([self tileAtColumn:column andRow:row])
             {
-                NSUInteger friendType = arc4random_uniform(NumFriendTypes) + 1;
+                NSUInteger friendType;
+                do
+                {
+                    // Generate random friend type:
+                    friendType = arc4random_uniform(NumFriendTypes) + 1;
+                }
+                while (   // Keep doing it if friendType were to create row or column of 3:
+                    (column >= 2 &&
+                     _friends[column - 1][row].friendType == friendType &&
+                     _friends[column - 2][row].friendType == friendType)
+                       ||
+                    (row >= 2 &&
+                     _friends[column][row - 1].friendType == friendType &&
+                     _friends[column][row - 2].friendType == friendType)
+                    );
+
                 EVFriend *friend = [self createFriendAtColumn:column
                                                        andRow:row
                                                      withType:friendType];
