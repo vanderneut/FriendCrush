@@ -26,6 +26,8 @@
 		031CE3E0194BEC0700DEC43B /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 031CE3DF194BEC0700DEC43B /* Sprites.atlas */; };
 		03DF9B85194BF4B100B136C8 /* EVFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B84194BF4B100B136C8 /* EVFriend.m */; };
 		03DF9B88194BF84900B136C8 /* EVLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B87194BF84900B136C8 /* EVLevel.m */; };
+		03DF9B8A194C09E400B136C8 /* Levels in Resources */ = {isa = PBXBuildFile; fileRef = 03DF9B89194C09E400B136C8 /* Levels */; };
+		03DF9B8D194C0A4D00B136C8 /* EVTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B8C194C0A4C00B136C8 /* EVTile.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,9 @@
 		03DF9B84194BF4B100B136C8 /* EVFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFriend.m; sourceTree = "<group>"; };
 		03DF9B86194BF84900B136C8 /* EVLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVLevel.h; sourceTree = "<group>"; };
 		03DF9B87194BF84900B136C8 /* EVLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVLevel.m; sourceTree = "<group>"; };
+		03DF9B89194C09E400B136C8 /* Levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Levels; sourceTree = "<group>"; };
+		03DF9B8B194C0A4C00B136C8 /* EVTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTile.h; sourceTree = "<group>"; };
+		03DF9B8C194C0A4C00B136C8 /* EVTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTile.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,10 +142,13 @@
 				031CE3C2194BEB6A00DEC43B /* Images.xcassets */,
 				031CE3DF194BEC0700DEC43B /* Sprites.atlas */,
 				031CE3AC194BEB6A00DEC43B /* Supporting Files */,
+				03DF9B89194C09E400B136C8 /* Levels */,
 				03DF9B83194BF4B100B136C8 /* EVFriend.h */,
 				03DF9B84194BF4B100B136C8 /* EVFriend.m */,
 				03DF9B86194BF84900B136C8 /* EVLevel.h */,
 				03DF9B87194BF84900B136C8 /* EVLevel.m */,
+				03DF9B8B194C0A4C00B136C8 /* EVTile.h */,
+				03DF9B8C194C0A4C00B136C8 /* EVTile.m */,
 			);
 			path = FriendCrush;
 			sourceTree = "<group>";
@@ -251,6 +259,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03DF9B8A194C09E400B136C8 /* Levels in Resources */,
 				031CE3B0194BEB6A00DEC43B /* InfoPlist.strings in Resources */,
 				031CE3C3194BEB6A00DEC43B /* Images.xcassets in Resources */,
 				031CE3B9194BEB6A00DEC43B /* Main.storyboard in Resources */,
@@ -275,6 +284,7 @@
 			files = (
 				031CE3BC194BEB6A00DEC43B /* EVViewController.m in Sources */,
 				03DF9B88194BF84900B136C8 /* EVLevel.m in Sources */,
+				03DF9B8D194C0A4D00B136C8 /* EVTile.m in Sources */,
 				031CE3BF194BEB6A00DEC43B /* EVMyScene.m in Sources */,
 				031CE3B2194BEB6A00DEC43B /* main.m in Sources */,
 				031CE3B6194BEB6A00DEC43B /* EVAppDelegate.m in Sources */,

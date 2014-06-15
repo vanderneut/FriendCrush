@@ -34,7 +34,7 @@
     self.scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Load the level:
-    self.level = [[EVLevel alloc] init];
+    self.level = [[EVLevel alloc] initWithFile:@"Levels/Level_3"];
     self.scene.level = self.level;
     
     // Present the scene:

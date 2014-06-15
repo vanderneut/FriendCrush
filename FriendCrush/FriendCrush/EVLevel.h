@@ -7,6 +7,7 @@
 //
 
 #import "EVFriend.h"
+#import "EVTile.h"
 
 static const NSInteger NumColumns = 9;
 static const NSInteger NumRows = 9;
@@ -17,5 +18,10 @@ static const NSInteger NumRows = 9;
 
 -(EVFriend *)friendAtColumn:(NSInteger)column
                      andRow:(NSInteger)row;
+
+-(instancetype)initWithFile:(NSString *)fileName;
+
+-(EVTile *)tileAtColumn:(NSInteger)column
+                 andRow:(NSInteger)row;
 
 @end
