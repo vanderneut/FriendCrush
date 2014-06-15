@@ -15,9 +15,19 @@ static const CGFloat TileHeight = 36.0;
 
 @interface EVMyScene ()
 
+/*!
+ Scene view layers
+ */
 @property (strong, nonatomic) SKNode *gameLayer;
 @property (strong, nonatomic) SKNode *friendsLayer;
 @property (strong, nonatomic) SKNode *tilesLayer;
+
+/*!
+ Record the column and row numbers of the friend that the player first touched
+ when they started the swipe movement.
+ */
+@property (assign, nonatomic) NSInteger swipeFromColumn;
+@property (assign, nonatomic) NSInteger swipeFromRow;
 
 @end
 
@@ -48,6 +58,9 @@ static const CGFloat TileHeight = 36.0;
         self.friendsLayer = [SKNode node];
         self.friendsLayer.position = layerPosition;
         [self.gameLayer addChild:self.friendsLayer];
+        
+        // Initialize the swipe starting column and row numbers:
+        self.swipeFromColumn = self.swipeFromRow = NSNotFound;
     }
     return self;
 }
@@ -86,26 +99,129 @@ static const CGFloat TileHeight = 36.0;
                        0.5 * TileHeight +    row * TileHeight);
 }
 
-//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    /* Called when a touch begins */
-//    
-//    for (UITouch *touch in touches)
-//    {
-//        CGPoint location = [touch locationInNode:self];
-//        
-//        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-//        
-//        sprite.position = location;
-//        
-//        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-//        
-//        [sprite runAction:[SKAction repeatActionForever:action]];
-//        
-//        [self addChild:sprite];
-//    }
-//}
-//
+-(BOOL)convertPoint:(CGPoint)point toColumn:(NSInteger *)column andRow:(NSInteger *)row
+{
+    NSParameterAssert(column);
+    NSParameterAssert(row);
+    
+    // Check whether this is a valid location within the friends layer:
+    if (0 <= point.x < NumColumns * TileWidth &&
+        0 <= point.y < NumRows * TileHeight)
+    {
+        // If YES, calculate corresponding row and column numbers:
+        *column = point.x / TileWidth;
+        *row    = point.y / TileHeight;
+        return YES;
+    }
+    else
+    {
+        // If NO, calculate corresponding row and column numbers:
+        *column = NSNotFound;
+        *row    = NSNotFound;
+        return NO;
+    }
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    /* Called when a touch begins */
+    
+    // Convert touch point to friends-layer point:
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInNode:self.friendsLayer];
+    
+    // If the touch is inside the 9x9 grid...
+    NSInteger column, row;
+    if ([self convertPoint:location toColumn:&column andRow:&row])
+    {
+        // ...and touch is on a friend, not an empty square...
+        EVFriend *friend = [self.level friendAtColumn:column andRow:row];
+        if (friend)
+        {
+            // ...record the column and row from where the swipe is starting:
+            self.swipeFromColumn = column;
+            self.swipeFromRow    = row;
+            
+            NSLog(@"Touch detected on friend in column %d and row %d", column, row);
+        }
+    }
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    // If not a valid starting column, then either the swipe began outside the
+    // the valid area, or the game has already swapped the friends:
+    if (self.swipeFromColumn == NSNotFound)
+    {
+        return;     /* RETURN when don't need to handle (rest) of this swipe */
+    }
+
+    // Convert touch point to friends-layer point:
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInNode:self.friendsLayer];
+    
+    // If the touch is inside the 9x9 grid...
+    NSInteger column, row;
+    if ([self convertPoint:location toColumn:&column andRow:&row])
+    {
+        // Figure out swipe direction:
+        NSInteger deltaHorizontal = 0, deltaVertical = 0;
+        if (column < self.swipeFromColumn)
+        {
+            deltaHorizontal = -1;   // swipe left
+        }
+        else if (column > self.swipeFromColumn)
+        {
+            deltaHorizontal = 1;    // swipe right
+        }
+        else if (row < self.swipeFromRow)
+        {
+            deltaVertical = -1;     // swipe down
+        }
+        else if (row > self.swipeFromRow)
+        {
+            deltaVertical = 1;      // swipe up
+        }
+        
+        // Only perform the swipe if player swiped out of the old square:
+        if (deltaHorizontal || deltaVertical)
+        {
+            [self trySwapHorizontal:deltaHorizontal orVertical:deltaVertical];
+            self.swipeFromColumn = self.swipeFromRow = NSNotFound;      // ignore rest of swipe
+        }
+    }
+}
+
+-(void)trySwapHorizontal:(NSInteger)deltaHorizontal orVertical:(NSInteger)deltaVertical
+{
+    // Calculate location of the friend to swap with:
+    NSInteger toColumn = self.swipeFromColumn + deltaHorizontal;
+    NSInteger toRow    = self.swipeFromRow    + deltaVertical;
+    
+    // Don't swap when user swiped across outer edge of 9x9 grid:
+    if (toColumn < 0 || toColumn >= NumColumns) return;             /* RETURN */
+    if (toRow    < 0 || toRow    >= NumRows)    return;             /* RETURN */
+    
+    // Don't swap if there is no friend at the swipe destination:
+    EVFriend *toFriend = [self.level friendAtColumn:toColumn andRow:toRow];
+    if (!toFriend) return;                                          /* RETURN */
+    
+    // We have two friends to swap:
+    EVFriend *fromFriend = [self.level friendAtColumn:self.swipeFromColumn andRow:self.swipeFromRow];
+    
+    NSLog(@"Swapping %@ with %@...", fromFriend, toFriend);
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    self.swipeFromColumn = self.swipeFromRow = NSNotFound;
+}
+
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self touchesEnded:touches withEvent:event];
+}
+
 //-(void)update:(CFTimeInterval)currentTime
 //{
 //    /* Called before each frame is rendered */
