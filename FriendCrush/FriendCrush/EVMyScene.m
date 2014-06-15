@@ -30,6 +30,11 @@ static const CGFloat TileHeight = 36.0;
 @property (assign, nonatomic) NSInteger swipeFromColumn;
 @property (assign, nonatomic) NSInteger swipeFromRow;
 
+/*!
+ Sprite highlighting 
+ */
+@property (strong, nonatomic) SKSpriteNode *selectionSprite;
+
 @end
 
 @implementation EVMyScene
@@ -62,6 +67,9 @@ static const CGFloat TileHeight = 36.0;
         
         // Initialize the swipe starting column and row numbers:
         self.swipeFromColumn = self.swipeFromRow = NSNotFound;
+        
+        // Initialize selected sprite:
+        self.selectionSprite = [SKSpriteNode node];
     }
     return self;
 }
@@ -143,7 +151,7 @@ static const CGFloat TileHeight = 36.0;
             self.swipeFromColumn = column;
             self.swipeFromRow    = row;
             
-            NSLog(@"Touch detected on friend in column %d and row %d", column, row);
+            [self showSelectionIndicatorForFriend:friend];
         }
     }
 }
@@ -188,6 +196,7 @@ static const CGFloat TileHeight = 36.0;
         if (deltaHorizontal || deltaVertical)
         {
             [self trySwapHorizontal:deltaHorizontal orVertical:deltaVertical];
+            [self hideSelectionIndicator];
             self.swipeFromColumn = self.swipeFromRow = NSNotFound;      // ignore rest of swipe
         }
     }
@@ -241,12 +250,39 @@ static const CGFloat TileHeight = 36.0;
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    [self hideSelectionIndicator];
     self.swipeFromColumn = self.swipeFromRow = NSNotFound;
 }
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self touchesEnded:touches withEvent:event];
+}
+
+-(void)showSelectionIndicatorForFriend:(EVFriend *)friend
+{
+    // If selection indicator still visible, then remove it first:
+    if (self.selectionSprite.parent)
+    {
+        [self.selectionSprite removeFromParent];
+    }
+    
+    NSLog(@"High-lighting %@...", friend);
+    
+    SKTexture *texture = [SKTexture textureWithImageNamed:[friend highlightedSpriteName]];
+    self.selectionSprite.size = texture.size;
+    [self.selectionSprite runAction:[SKAction setTexture:texture]];
+    
+    [friend.sprite addChild:self.selectionSprite];  // make it move with the sprite
+    self.selectionSprite.alpha = 1.0;               // make it visible
+}
+
+-(void)hideSelectionIndicator
+{
+    [self.selectionSprite runAction:[SKAction fadeOutWithDuration:0.3]
+                         completion:^{
+                             [SKAction removeFromParent];
+                         }];
 }
 
 //-(void)update:(CFTimeInterval)currentTime
