@@ -15,4 +15,6 @@
 
 -(void)addSpritesForFriends:(NSSet *)friends;
 
+-(void)addTiles;
+
 @end

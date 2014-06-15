@@ -17,6 +17,7 @@ static const CGFloat TileHeight = 36.0;
 
 @property (strong, nonatomic) SKNode *gameLayer;
 @property (strong, nonatomic) SKNode *friendsLayer;
+@property (strong, nonatomic) SKNode *tilesLayer;
 
 @end
 
@@ -28,17 +29,24 @@ static const CGFloat TileHeight = 36.0;
     {
         self.anchorPoint = CGPointMake(0.5, 0.5);
         
+        // Screen background:
         SKSpriteNode *background = [SKSpriteNode spriteNodeWithImageNamed:@"Background"];
         [self addChild:background];
         
+        // Game layer:
         self.gameLayer = [SKNode node];
         [self addChild:self.gameLayer];
         
         CGPoint layerPosition = CGPointMake(-TileWidth * 0.5 * NumColumns, -TileHeight * 0.5 * NumRows);
         
+        // Layer to hold the tiles background images:
+        self.tilesLayer = [SKNode node];
+        self.tilesLayer.position = layerPosition;
+        [self.gameLayer addChild:self.tilesLayer];
+        
+        // Layer to hold the friend images:
         self.friendsLayer = [SKNode node];
         self.friendsLayer.position = layerPosition;
-        
         [self.gameLayer addChild:self.friendsLayer];
     }
     return self;
@@ -52,6 +60,22 @@ static const CGFloat TileHeight = 36.0;
         sprite.position = [self getCGPointForColumn:friend.column andRow:friend.row];
         [self.friendsLayer addChild:sprite];
         friend.sprite = sprite;
+    }
+}
+
+-(void)addTiles
+{
+    for (NSInteger row = 0; row < NumRows; row++)
+    {
+        for (NSInteger column = 0; column < NumColumns; column++)
+        {
+            if ([self.level tileAtColumn:column andRow:row])
+            {
+                SKSpriteNode *tileNode = [SKSpriteNode spriteNodeWithImageNamed:@"Tile"];
+                tileNode.position = [self getCGPointForColumn:column andRow:row];
+                [self.tilesLayer addChild:tileNode];
+            }
+        }
     }
 }
 

@@ -36,6 +36,7 @@
     // Load the level:
     self.level = [[EVLevel alloc] initWithFile:@"Levels/Level_3"];
     self.scene.level = self.level;
+    [self.scene addTiles];
     
     // Present the scene:
     [skView presentScene:self.scene];
