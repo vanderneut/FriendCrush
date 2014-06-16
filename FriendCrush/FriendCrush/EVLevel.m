@@ -8,6 +8,12 @@
 
 #import "EVLevel.h"
 
+@interface EVLevel()
+
+@property (strong, nonatomic) NSSet *possibleSwaps;
+
+@end
+
 @implementation EVLevel
 
 /*!
@@ -75,7 +81,147 @@ EVTile *_tiles[NumColumns][NumRows];
 
 -(NSSet *)shuffle
 {
-    return [self createInitialFriends];
+    NSSet *set;
+    do
+    {
+        set = [self createInitialFriends];
+        [self detectPossibleSwaps];
+        NSLog(@"Possible swaps: %@", self.possibleSwaps);
+    }
+    while (!self.possibleSwaps.count);
+    
+    return set;
+}
+
+-(void)detectPossibleSwaps
+{
+    NSMutableSet *set = [NSMutableSet set];
+    
+    // For each friend in the level, test whether we have a valid swap with
+    // another friend on the right, or a friend above.
+    
+    for (NSInteger row = 0; row < NumRows; row++)
+    {
+        for (NSInteger column = 0; column < NumColumns; column++)
+        {
+            EVFriend *friend = _friends[column][row];
+            if (friend)
+            {
+                // Can we swap this friend with friend on the RIGHT?
+                
+                if (column < NumColumns - 1)
+                {
+                    EVFriend *friendOnRight = _friends[column + 1][row];
+                    if (friendOnRight)
+                    {
+                        // Swap them:
+                        _friends[column][row] = friendOnRight;
+                        _friends[column + 1][row] = friend;
+                        
+                        // Does that swap create a chain?
+                        if ([self hasChainAtColumn:column andRow:row] ||
+                            [self hasChainAtColumn:(column + 1) andRow:row])
+                        {
+                            // Found valid swap, so add it to the set of possible swaps:
+                            EVSwap *swap = [[EVSwap alloc] init];
+                            swap.friendA = friend;
+                            swap.friendB = friendOnRight;
+                            [set addObject:swap];
+                        }
+                        
+                        // Swap them back now:
+                        _friends[column][row] = friend;
+                        _friends[column + 1][row] = friendOnRight;
+                    }
+                }
+                
+                // Can we swap this friend with friend on row ABOVE?
+                
+                if (row < NumRows - 1)
+                {
+                    EVFriend *friendAbove = _friends[column][row + 1];
+                    if (friendAbove)
+                    {
+                        // Swap them:
+                        _friends[column][row] = friendAbove;
+                        _friends[column][row + 1] = friend;
+                        
+                        // Does that swap create a chain?
+                        if ([self hasChainAtColumn:column andRow:row] ||
+                            [self hasChainAtColumn:column andRow:(row + 1)])
+                        {
+                            // Found valid swap, so add it to the set of possible swaps:
+                            EVSwap *swap = [[EVSwap alloc] init];
+                            swap.friendA = friend;
+                            swap.friendB = friendAbove;
+                            [set addObject:swap];
+                        }
+                        
+                        // Swap them back now:
+                        _friends[column][row] = friend;
+                        _friends[column][row + 1] = friendAbove;
+                    }
+                }
+            }
+        }
+    }
+    
+    self.possibleSwaps = set;
+}
+
+-(BOOL)hasChainAtColumn:(NSInteger)column andRow:(NSInteger)row
+{
+    NSUInteger friendType = _friends[column][row].friendType;
+    
+    NSUInteger chainLength = 1;
+    
+    // Calculate chain length to the left:
+    for (NSInteger i = column - 1;                  // start on left of current friend
+         
+         i >= 0 &&                                  // while not reached left edge yet, and...
+         _friends[i][row].friendType == friendType; // ...still same friend type
+         
+         i--,                                       // move one column to the left...
+         chainLength++)                             // ...and increment chain length
+        ;                                           // (nothing left to do in loop)
+    
+    if (chainLength >= 3) return YES;               /* RETURN YES when chain found */
+    
+    // Calculate chain length to the right:
+    for (NSInteger i = column + 1;                  // start on right of current friend
+         
+         i < NumColumns &&                          // while not reached right edge yet, and...
+         _friends[i][row].friendType == friendType; // ...still same friend type
+         
+         i++,                                       // move one column to the right...
+         chainLength++)                             // ...and increment chain length
+        ;                                           // (nothing left to do in loop)
+    
+    if (chainLength >= 3) return YES;               /* RETURN YES when chain found */
+
+    // Calcualate chain length downward:
+    for (NSInteger i = row - 1;                     // start on row below current friend
+         
+         i >= 0 &&                                  // while not reached bottom edge yet, and...
+         _friends[i][row].friendType == friendType; // ...still same friend
+         
+         i--,                                       // move one row down...
+         chainLength++)                             // ...and increment chain length
+        ;                                           // (nothing left to do in loop)
+    
+    if (chainLength >= 3) return YES;               /* RETURN YES when chain found */
+
+    // Calculate chain length upward:
+    for (NSInteger i = row + 1;                     // start on row above current friend
+         
+         i < NumRows &&                             // while not reached top edge yet, and...
+         _friends[i][row].friendType == friendType; // ...still same friend
+         
+         i++,                                       // move one row up...
+         chainLength++)                             // ...and increment chain length
+        ;                                           // (nothing left to do in loop)
+    
+    return (chainLength >= 3);                      /* RETURN YES when chain found, NO otherwise */
 }
 
 -(NSSet *)createInitialFriends
