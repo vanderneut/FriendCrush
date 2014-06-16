@@ -43,6 +43,9 @@ EVTile *_tiles[NumColumns][NumRows];
 
 #pragma mark - Creation methods:
 
+/*!
+ Initialize the level with the data from a Level JSON file.
+ */
 -(instancetype)initWithFile:(NSString *)fileName
 {
     self = [super init];
@@ -71,6 +74,9 @@ EVTile *_tiles[NumColumns][NumRows];
     return self;
 }
 
+/*!
+ Get the tile at a given position.
+ */
 -(EVTile *)tileAtColumn:(NSInteger)column andRow:(NSInteger)row
 {
     NSAssert1(0 <= column < NumColumns, @"Invalid column: %ld", (long)column);
@@ -79,6 +85,10 @@ EVTile *_tiles[NumColumns][NumRows];
     return _tiles[column][row];     /* RETURN tile when found, nil otherwise */
 }
 
+/*!
+ Generate a random population of the level with friends, in such a way that
+ there is at least one swap possible.
+ */
 -(NSSet *)shuffle
 {
     NSSet *set;
@@ -93,6 +103,11 @@ EVTile *_tiles[NumColumns][NumRows];
     return set;
 }
 
+/*!
+ Given the current set of friends and their positions in the level, now generate
+ a complete mapping of all the swaps that are valid swaps. Valid swaps are those
+ that lead to chains of at least three of the same friends in a row or column.
+ */
 -(void)detectPossibleSwaps
 {
     NSMutableSet *set = [NSMutableSet set];
@@ -169,6 +184,10 @@ EVTile *_tiles[NumColumns][NumRows];
     self.possibleSwaps = set;
 }
 
+/*!
+ Check whether for a friend at a specified location there is a chain of the 
+ same friend type of at least 3 friends long.
+ */
 -(BOOL)hasChainAtColumn:(NSInteger)column andRow:(NSInteger)row
 {
     NSUInteger friendType = _friends[column][row].friendType;
@@ -224,6 +243,10 @@ EVTile *_tiles[NumColumns][NumRows];
     return (chainLength >= 3);                      /* RETURN YES when chain found, NO otherwise */
 }
 
+/*!
+ Generate a random population of the level with friends, in such a way that we 
+ don't end up with any friend-chains right from the get-go.
+ */
 -(NSSet *)createInitialFriends
 {
     NSMutableSet *set = [NSMutableSet set];

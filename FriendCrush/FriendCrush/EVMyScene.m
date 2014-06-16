@@ -74,6 +74,9 @@ static const CGFloat TileHeight = 36.0;
     return self;
 }
 
+/*!
+ Draw the friend sprites into their view layer.
+ */
 -(void)addSpritesForFriends:(NSSet *)friends
 {
     for (EVFriend *friend in friends)
@@ -85,6 +88,10 @@ static const CGFloat TileHeight = 36.0;
     }
 }
 
+/*!
+ In the view, add a background tile to each valid position in the level, so the 
+ user can clearly see the layout of this level.
+ */
 -(void)addTiles
 {
     for (NSInteger row = 0; row < NumRows; row++)
@@ -202,6 +209,10 @@ static const CGFloat TileHeight = 36.0;
     }
 }
 
+/*!
+ Determine whether a swap is allowed in the specified direction, and if it is, 
+ then perform it.
+ */
 -(void)trySwapHorizontal:(NSInteger)deltaHorizontal orVertical:(NSInteger)deltaVertical
 {
     // Calculate location of the friend to swap with:
@@ -231,6 +242,9 @@ static const CGFloat TileHeight = 36.0;
     }
 }
 
+/*!
+ Run the view animation to show the swap to the player
+ */
 -(void)animateSwap:(EVSwap *)swap completion:(dispatch_block_t)completion
 {
     // Place the starting friend on top:
@@ -259,6 +273,9 @@ static const CGFloat TileHeight = 36.0;
     [self touchesEnded:touches withEvent:event];
 }
 
+/*!
+ High-light the friend in the grid that the user is touching.
+ */
 -(void)showSelectionIndicatorForFriend:(EVFriend *)friend
 {
     // If selection indicator still visible, then remove it first:

@@ -38,6 +38,7 @@
     self.scene.level = self.level;
     [self.scene addTiles];
     
+    // Create and set the swipe/swap handler block method:
     id block = ^(EVSwap *swap)
     {
         self.view.userInteractionEnabled = NO;
@@ -85,9 +86,12 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
         return UIInterfaceOrientationMaskAllButUpsideDown;
-    } else {
+    }
+    else
+    {
         return UIInterfaceOrientationMaskAll;
     }
 }
