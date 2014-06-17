@@ -41,15 +41,18 @@
     // Create and set the swipe/swap handler block method:
     id block = ^(EVSwap *swap)
     {
-        if ([self.level isPossibleSwap:swap])
+        BOOL possibleSwap = [self.level isPossibleSwap:swap];
+        if (possibleSwap)
         {
-            self.view.userInteractionEnabled = NO;
             [self.level performSwap:swap];
-            [self.scene animateSwap:swap completion:^
-            {
-                self.view.userInteractionEnabled = YES;
-            }];
         }
+        self.view.userInteractionEnabled = NO;
+        [self.scene animateSwap:swap
+                 isPossibleSwap:possibleSwap
+                     completion:^
+         {
+             self.view.userInteractionEnabled = YES;
+         }];
     };
     self.scene.swipeHandler = block;
     

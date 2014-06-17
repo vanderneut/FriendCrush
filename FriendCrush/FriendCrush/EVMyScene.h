@@ -27,6 +27,8 @@
 
 -(void)addTiles;
 
--(void)animateSwap:(EVSwap *)swap completion:(dispatch_block_t)completion;
+-(void)animateSwap:(EVSwap *)swap
+    isPossibleSwap:(BOOL)possibleSwap
+        completion:(dispatch_block_t)completion;
 
 @end

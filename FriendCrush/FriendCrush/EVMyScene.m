@@ -245,7 +245,9 @@ static const CGFloat TileHeight = 36.0;
 /*!
  Run the view animation to show the swap to the player
  */
--(void)animateSwap:(EVSwap *)swap completion:(dispatch_block_t)completion
+-(void)animateSwap:(EVSwap *)swap
+    isPossibleSwap:(BOOL)possibleSwap
+        completion:(dispatch_block_t)completion
 {
     // Place the starting friend on top:
     swap.friendA.sprite.zPosition = 100;
@@ -255,12 +257,22 @@ static const CGFloat TileHeight = 36.0;
     
     SKAction *moveA = [SKAction moveTo:swap.friendB.sprite.position duration:Duration];
     moveA.timingMode = SKActionTimingEaseOut;
-    [swap.friendA.sprite runAction:moveA completion:completion];
     
     SKAction *moveB = [SKAction moveTo:swap.friendA.sprite.position duration:Duration];
     moveB.timingMode = SKActionTimingEaseOut;
-    [swap.friendB.sprite runAction:moveB];
+    
+    if (possibleSwap)
+    {
+        [swap.friendA.sprite runAction:moveA completion:completion];
+        [swap.friendB.sprite runAction:moveB];
+    }
+    else
+    {
+        [swap.friendA.sprite runAction:[SKAction sequence:@[moveA, moveB]] completion:completion];
+        [swap.friendB.sprite runAction:[SKAction sequence:@[moveB, moveA]]];
+    }
 }
+
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
