@@ -348,4 +348,11 @@ EVTile *_tiles[NumColumns][NumRows];
     swap.friendA.row    = rowB;
 }
 
+#pragma mark - Swap validation:
+
+-(BOOL)isPossibleSwap:(EVSwap *)swap
+{
+    return [self.possibleSwaps containsObject:swap];
+}
+
 @end
