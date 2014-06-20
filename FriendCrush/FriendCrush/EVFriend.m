@@ -45,8 +45,8 @@
 
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"Friend type %ld on square: (%ld, %ld)",
-            (long)self.friendType, (long)self.column, (long)self.row];
+    return [NSString stringWithFormat:@"%@ on square (%ld, %ld)",
+            self.spriteName, (long)self.column, (long)self.row];
 }
 
 @end

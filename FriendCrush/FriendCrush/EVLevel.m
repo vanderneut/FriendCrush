@@ -124,11 +124,15 @@ EVTile *_tiles[NumColumns][NumRows];
             {
                 // Can we swap this friend with friend on the RIGHT?
                 
+                NSLog(@"---------------------------------------------------------\ndetectPossibleSwaps for %@", friend);
+                
                 if (column < NumColumns - 1)
                 {
                     EVFriend *friendOnRight = _friends[column + 1][row];
                     if (friendOnRight)
                     {
+                        NSLog(@"detectPossibleSwaps for %@ has friend on right: %@", friend, friendOnRight);
+
                         // Swap them:
                         _friends[column][row] = friendOnRight;
                         _friends[column + 1][row] = friend;
@@ -141,6 +145,7 @@ EVTile *_tiles[NumColumns][NumRows];
                             EVSwap *swap = [[EVSwap alloc] init];
                             swap.friendA = friend;
                             swap.friendB = friendOnRight;
+                            NSLog(@"detectPossibleSwaps FOUND VALID SWAP with friend on RIGHT: %@", swap);
                             [set addObject:swap];
                         }
                         
@@ -157,6 +162,8 @@ EVTile *_tiles[NumColumns][NumRows];
                     EVFriend *friendAbove = _friends[column][row + 1];
                     if (friendAbove)
                     {
+                        NSLog(@"detectPossibleSwaps for %@ has friend above: %@", friend, friendAbove);
+                        
                         // Swap them:
                         _friends[column][row] = friendAbove;
                         _friends[column][row + 1] = friend;
@@ -169,6 +176,7 @@ EVTile *_tiles[NumColumns][NumRows];
                             EVSwap *swap = [[EVSwap alloc] init];
                             swap.friendA = friend;
                             swap.friendB = friendAbove;
+                            NSLog(@"detectPossibleSwaps FOUND VALID SWAP with friend ABOVE: %@", swap);
                             [set addObject:swap];
                         }
                         
@@ -192,7 +200,7 @@ EVTile *_tiles[NumColumns][NumRows];
 {
     NSUInteger friendType = _friends[column][row].friendType;
     
-    NSUInteger chainLength = 1;
+    NSUInteger chainLengthHorizontal = 1;
     
     // Calculate chain length to the left:
     for (NSInteger i = column - 1;                  // start on left of current friend
@@ -201,11 +209,11 @@ EVTile *_tiles[NumColumns][NumRows];
          _friends[i][row].friendType == friendType; // ...still same friend type
          
          i--,                                       // move one column to the left...
-         chainLength++)                             // ...and increment chain length
+         chainLengthHorizontal++)                   // ...and increment chain length
         ;                                           // (nothing left to do in loop)
     
-    if (chainLength >= 3) return YES;               /* RETURN YES when chain found */
-    
+    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthHorizontal left:%d", column, row, chainLengthHorizontal);
+
     // Calculate chain length to the right:
     for (NSInteger i = column + 1;                  // start on right of current friend
          
@@ -213,34 +221,42 @@ EVTile *_tiles[NumColumns][NumRows];
          _friends[i][row].friendType == friendType; // ...still same friend type
          
          i++,                                       // move one column to the right...
-         chainLength++)                             // ...and increment chain length
+         chainLengthHorizontal++)                   // ...and increment chain length
         ;                                           // (nothing left to do in loop)
     
-    if (chainLength >= 3) return YES;               /* RETURN YES when chain found */
+    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthHorizontal total:%d", column, row, chainLengthHorizontal);
+    
+    // If left and right combined horizontal length is at least 3, then return YES:
+    if (chainLengthHorizontal >= 3) return YES;     /* RETURN YES when chain found */
+
+    NSUInteger chainLengthVertical = 1;
 
     // Calcualate chain length downward:
     for (NSInteger i = row - 1;                     // start on row below current friend
          
          i >= 0 &&                                  // while not reached bottom edge yet, and...
-         _friends[i][row].friendType == friendType; // ...still same friend
+         _friends[column][i].friendType == friendType; // ...still same friend
          
          i--,                                       // move one row down...
-         chainLength++)                             // ...and increment chain length
+         chainLengthVertical++)                     // ...and increment chain length
         ;                                           // (nothing left to do in loop)
     
-    if (chainLength >= 3) return YES;               /* RETURN YES when chain found */
+    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthVertical down:%d", column, row, chainLengthVertical);
 
     // Calculate chain length upward:
     for (NSInteger i = row + 1;                     // start on row above current friend
          
          i < NumRows &&                             // while not reached top edge yet, and...
-         _friends[i][row].friendType == friendType; // ...still same friend
+         _friends[column][i].friendType == friendType; // ...still same friend
          
          i++,                                       // move one row up...
-         chainLength++)                             // ...and increment chain length
+         chainLengthVertical++)                     // ...and increment chain length
         ;                                           // (nothing left to do in loop)
     
-    return (chainLength >= 3);                      /* RETURN YES when chain found, NO otherwise */
+    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthVertical total:%d", column, row, chainLengthVertical);
+    
+    // If up and downward combined vertical length is at least 3, then return YES:
+    return (chainLengthVertical >= 3);              /* RETURN YES when chain found, NO otherwise */
 }
 
 /*!
