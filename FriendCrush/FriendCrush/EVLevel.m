@@ -104,6 +104,65 @@ EVTile *_tiles[NumColumns][NumRows];
 }
 
 /*!
+ Generate a random population of the level with friends, in such a way that we
+ don't end up with any friend-chains right from the get-go.
+ */
+-(NSSet *)createInitialFriends
+{
+    NSMutableSet *set = [NSMutableSet set];
+    
+    // Loop through the 9x9 grid and create a Friend of random type in each cell:
+    for (NSInteger row = 0; row < NumRows; row++)
+    {
+        for (NSInteger column = 0; column < NumColumns; column++)
+        {
+            if ([self tileAtColumn:column andRow:row])
+            {
+                NSUInteger friendType;
+                do
+                {
+                    // Generate random friend type:
+                    friendType = arc4random_uniform(NumFriendTypes) + 1;
+                }
+                while (   // Keep doing it if friendType were to create row or column of 3:
+                       (column >= 2 &&
+                        _friends[column - 1][row].friendType == friendType &&
+                        _friends[column - 2][row].friendType == friendType)
+                       ||
+                       (row >= 2 &&
+                        _friends[column][row - 1].friendType == friendType &&
+                        _friends[column][row - 2].friendType == friendType)
+                       );
+                
+                EVFriend *friend = [self createFriendAtColumn:column
+                                                       andRow:row
+                                                     withType:friendType];
+                [set addObject:friend];
+            }
+        }
+    }
+    
+    NSLog(@"Created friends: %@", set);
+    return set;
+}
+
+-(EVFriend *)createFriendAtColumn:(NSInteger)column
+                           andRow:(NSInteger)row
+                         withType:(NSInteger)friendType
+{
+    EVFriend *friend  = [[EVFriend alloc] init];
+    friend.friendType = friendType;
+    friend.column     = column;
+    friend.row        = row;
+    _friends[column][row] = friend;
+    
+    return friend;
+}
+
+
+#pragma mark - Swap validity
+
+/*!
  Given the current set of friends and their positions in the level, now generate
  a complete mapping of all the swaps that are valid swaps. Valid swaps are those
  that lead to chains of at least three of the same friends in a row or column.
@@ -259,61 +318,6 @@ EVTile *_tiles[NumColumns][NumRows];
     return (chainLengthVertical >= 3);              /* RETURN YES when chain found, NO otherwise */
 }
 
-/*!
- Generate a random population of the level with friends, in such a way that we 
- don't end up with any friend-chains right from the get-go.
- */
--(NSSet *)createInitialFriends
-{
-    NSMutableSet *set = [NSMutableSet set];
-    
-    // Loop through the 9x9 grid and create a Friend of random type in each cell:
-    for (NSInteger row = 0; row < NumRows; row++)
-    {
-        for (NSInteger column = 0; column < NumColumns; column++)
-        {
-            if ([self tileAtColumn:column andRow:row])
-            {
-                NSUInteger friendType;
-                do
-                {
-                    // Generate random friend type:
-                    friendType = arc4random_uniform(NumFriendTypes) + 1;
-                }
-                while (   // Keep doing it if friendType were to create row or column of 3:
-                    (column >= 2 &&
-                     _friends[column - 1][row].friendType == friendType &&
-                     _friends[column - 2][row].friendType == friendType)
-                       ||
-                    (row >= 2 &&
-                     _friends[column][row - 1].friendType == friendType &&
-                     _friends[column][row - 2].friendType == friendType)
-                    );
-
-                EVFriend *friend = [self createFriendAtColumn:column
-                                                       andRow:row
-                                                     withType:friendType];
-                [set addObject:friend];
-            }
-        }
-    }
-    
-    NSLog(@"Created friends: %@", set);
-    return set;
-}
-
--(EVFriend *)createFriendAtColumn:(NSInteger)column
-                           andRow:(NSInteger)row
-                         withType:(NSInteger)friendType
-{
-    EVFriend *friend  = [[EVFriend alloc] init];
-    friend.friendType = friendType;
-    friend.column     = column;
-    friend.row        = row;
-    _friends[column][row] = friend;
-    
-    return friend;
-}
 
 #pragma mark - JSON level file loading:
 

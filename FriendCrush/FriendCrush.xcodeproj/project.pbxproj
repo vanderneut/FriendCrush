@@ -25,6 +25,12 @@
 		031CE3D6194BEB6A00DEC43B /* FriendCrushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 031CE3D5194BEB6A00DEC43B /* FriendCrushTests.m */; };
 		031CE3E0194BEC0700DEC43B /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 031CE3DF194BEC0700DEC43B /* Sprites.atlas */; };
 		034864C4194DBFE4006FB717 /* EVSwap.m in Sources */ = {isa = PBXBuildFile; fileRef = 034864C3194DBFE4006FB717 /* EVSwap.m */; };
+		03B225E41953C50900FC982B /* Chomp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03B225DE1953C50900FC982B /* Chomp.wav */; };
+		03B225E51953C50900FC982B /* Drip.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03B225DF1953C50900FC982B /* Drip.wav */; };
+		03B225E61953C50900FC982B /* Error.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03B225E01953C50900FC982B /* Error.wav */; };
+		03B225E71953C50900FC982B /* Ka-Ching.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03B225E11953C50900FC982B /* Ka-Ching.wav */; };
+		03B225E81953C50900FC982B /* Mining by Moonlight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 03B225E21953C50900FC982B /* Mining by Moonlight.mp3 */; };
+		03B225E91953C50900FC982B /* Scrape.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03B225E31953C50900FC982B /* Scrape.wav */; };
 		03DF9B85194BF4B100B136C8 /* EVFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B84194BF4B100B136C8 /* EVFriend.m */; };
 		03DF9B88194BF84900B136C8 /* EVLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B87194BF84900B136C8 /* EVLevel.m */; };
 		03DF9B8A194C09E400B136C8 /* Levels in Resources */ = {isa = PBXBuildFile; fileRef = 03DF9B89194C09E400B136C8 /* Levels */; };
@@ -67,6 +73,12 @@
 		031CE3DF194BEC0700DEC43B /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
 		034864C2194DBFE4006FB717 /* EVSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSwap.h; sourceTree = "<group>"; };
 		034864C3194DBFE4006FB717 /* EVSwap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSwap.m; sourceTree = "<group>"; };
+		03B225DE1953C50900FC982B /* Chomp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Chomp.wav; sourceTree = "<group>"; };
+		03B225DF1953C50900FC982B /* Drip.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Drip.wav; sourceTree = "<group>"; };
+		03B225E01953C50900FC982B /* Error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Error.wav; sourceTree = "<group>"; };
+		03B225E11953C50900FC982B /* Ka-Ching.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Ka-Ching.wav"; sourceTree = "<group>"; };
+		03B225E21953C50900FC982B /* Mining by Moonlight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mining by Moonlight.mp3"; sourceTree = "<group>"; };
+		03B225E31953C50900FC982B /* Scrape.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Scrape.wav; sourceTree = "<group>"; };
 		03DF9B83194BF4B100B136C8 /* EVFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFriend.h; sourceTree = "<group>"; };
 		03DF9B84194BF4B100B136C8 /* EVFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFriend.m; sourceTree = "<group>"; };
 		03DF9B86194BF84900B136C8 /* EVLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVLevel.h; sourceTree = "<group>"; };
@@ -146,6 +158,7 @@
 				031CE3DF194BEC0700DEC43B /* Sprites.atlas */,
 				031CE3AC194BEB6A00DEC43B /* Supporting Files */,
 				03DF9B89194C09E400B136C8 /* Levels */,
+				03B225DD1953C50900FC982B /* Sounds */,
 				03DF9B83194BF4B100B136C8 /* EVFriend.h */,
 				03DF9B84194BF4B100B136C8 /* EVFriend.m */,
 				03DF9B86194BF84900B136C8 /* EVLevel.h */,
@@ -185,6 +198,19 @@
 				031CE3D2194BEB6A00DEC43B /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		03B225DD1953C50900FC982B /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				03B225DE1953C50900FC982B /* Chomp.wav */,
+				03B225DF1953C50900FC982B /* Drip.wav */,
+				03B225E01953C50900FC982B /* Error.wav */,
+				03B225E11953C50900FC982B /* Ka-Ching.wav */,
+				03B225E21953C50900FC982B /* Mining by Moonlight.mp3 */,
+				03B225E31953C50900FC982B /* Scrape.wav */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,10 +291,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				03DF9B8A194C09E400B136C8 /* Levels in Resources */,
+				03B225E51953C50900FC982B /* Drip.wav in Resources */,
 				031CE3B0194BEB6A00DEC43B /* InfoPlist.strings in Resources */,
+				03B225E81953C50900FC982B /* Mining by Moonlight.mp3 in Resources */,
+				03B225E91953C50900FC982B /* Scrape.wav in Resources */,
 				031CE3C3194BEB6A00DEC43B /* Images.xcassets in Resources */,
 				031CE3B9194BEB6A00DEC43B /* Main.storyboard in Resources */,
+				03B225E71953C50900FC982B /* Ka-Ching.wav in Resources */,
+				03B225E41953C50900FC982B /* Chomp.wav in Resources */,
 				031CE3E0194BEC0700DEC43B /* Sprites.atlas in Resources */,
+				03B225E61953C50900FC982B /* Error.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

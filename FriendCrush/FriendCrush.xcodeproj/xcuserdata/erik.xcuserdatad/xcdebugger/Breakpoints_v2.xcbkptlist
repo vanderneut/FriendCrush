@@ -25,22 +25,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FriendCrush/EVLevel.m"
-            timestampString = "424919898.971356"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "302"
-            endingLineNumber = "302"
-            landmarkName = "-createInitialFriends"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "FriendCrush/EVSwap.m"
             timestampString = "424664445.459047"
             startingColumnNumber = "9223372036854775807"
@@ -90,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FriendCrush/EVMyScene.m"
-            timestampString = "424665397.197472"
+            timestampString = "424921042.378181"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "271"
-            endingLineNumber = "271"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "-animateSwap:isPossibleSwap:completion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FriendCrush/EVLevel.m"
-            timestampString = "424919421.916773"
+            timestampString = "424921042.378181"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "-detectPossibleSwaps"
             landmarkType = "5">
          </BreakpointContent>

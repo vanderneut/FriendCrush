@@ -35,6 +35,15 @@ static const CGFloat TileHeight = 36.0;
  */
 @property (strong, nonatomic) SKSpriteNode *selectionSprite;
 
+/*!
+ Sound FX
+ */
+@property (strong, nonatomic) SKAction *swapSound;
+@property (strong, nonatomic) SKAction *invalidSwapSound;
+@property (strong, nonatomic) SKAction *matchSound;
+@property (strong, nonatomic) SKAction *fallingFriendSound;
+@property (strong, nonatomic) SKAction *addFriendSound;
+
 @end
 
 @implementation EVMyScene
@@ -70,8 +79,21 @@ static const CGFloat TileHeight = 36.0;
         
         // Initialize selected sprite:
         self.selectionSprite = [SKSpriteNode node];
+
+        // Preload all the sound effects:
+        [self preloadResources];
     }
+    
     return self;
+}
+
+-(void)preloadResources
+{
+    self.swapSound          = [SKAction playSoundFileNamed:@"Chomp.wav" waitForCompletion:NO];
+    self.invalidSwapSound   = [SKAction playSoundFileNamed:@"Error.wav" waitForCompletion:NO];
+    self.matchSound         = [SKAction playSoundFileNamed:@"Ka-Ching.wav" waitForCompletion:NO];
+    self.fallingFriendSound = [SKAction playSoundFileNamed:@"Scrape.wav" waitForCompletion:NO];
+    self.addFriendSound     = [SKAction playSoundFileNamed:@"Drip.wav" waitForCompletion:NO];
 }
 
 /*!
@@ -265,11 +287,13 @@ static const CGFloat TileHeight = 36.0;
     {
         [swap.friendA.sprite runAction:moveA completion:completion];
         [swap.friendB.sprite runAction:moveB];
+        [self runAction:self.swapSound];
     }
     else
     {
         [swap.friendA.sprite runAction:[SKAction sequence:@[moveA, moveB]] completion:completion];
         [swap.friendB.sprite runAction:[SKAction sequence:@[moveB, moveA]]];
+        [self runAction:self.invalidSwapSound];
     }
 }
 
