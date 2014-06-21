@@ -32,6 +32,17 @@ static const NSInteger NumRows = 9;
 
 -(NSSet *)removeMatches;
 
+/*!
+ Convenience method for getting a descriptive string of the _friends array.
+ */
 -(NSString *)friendsToString;
+
+/*!
+ Detects where there are empty tiles and shifts any friends down to fill those
+ tiles. It starts at the bottom and scans upwards. If it finds a square that 
+ should have a friend but doens't, then it finds the nearest friend above it and
+ moves this friend to the empty tile.
+ */
+-(NSArray *)fillHoles;
 
 @end

@@ -31,7 +31,17 @@
     isPossibleSwap:(BOOL)possibleSwap
         completion:(dispatch_block_t)completion;
 
+/*!
+ Animates chains of matching friends, to remove them off the grid.
+ */
 -(void)animateMatchedFriends:(NSSet *)chains
+                  completion:(dispatch_block_t)completion;
+
+/*!
+ Animates friend sprites down to show how empty holes in the level are filled 
+ with falling friends.
+ */
+-(void)animateFallingFriends:(NSArray *)columns
                   completion:(dispatch_block_t)completion;
 
 @end

@@ -91,7 +91,11 @@
     [self.scene animateMatchedFriends:chains
                            completion:^
      {
-         self.view.userInteractionEnabled = YES;
+         NSArray *columns = [self.level fillHoles];
+         [self.scene animateFallingFriends:columns completion:^
+         {
+             self.view.userInteractionEnabled = YES;
+         }];
      }];
 }
 

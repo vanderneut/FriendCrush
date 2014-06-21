@@ -522,4 +522,51 @@ EVTile *_tiles[NumColumns][NumRows];
     }
 }
 
+-(NSArray *)fillHoles
+{
+    NSMutableArray *columns = [NSMutableArray array];
+    
+    // Loop through the rows, from top to bottom:
+    for (NSInteger column = 0; column < NumColumns; column++)
+    {
+        NSMutableArray *array;
+        for (NSInteger row = 0; row < NumRows; row++)
+        {
+            // The _tiles array describes the shape of this level, so look at
+            // that to see if there is a tile. If tile without friend, then that
+            // is an empty tile that needs to be filled:
+            if (_tiles[column][row] && !_friends[column][row])
+            {
+                // Empty tile. Scan upward to find the friend that sits directly
+                // above the hole. The hole may be bigger than one tile, and it
+                // may span holes in the grid shape as well.
+                for (NSInteger rowUp = row +1; rowUp < NumRows; rowUp++)
+                {
+                    EVFriend *friend = _friends[column][rowUp];
+                    if (friend)
+                    {
+                        // Found friend higher up. Move it down to fill the hole.
+                        _friends[column][rowUp] = nil;
+                        _friends[column][row] = friend;
+                        friend.row = row;
+                        
+                        // Add this friend to the array. Start of array is lowest in column.
+                        if (!array)
+                        {
+                            array = [NSMutableArray array];
+                            [columns addObject:array];
+                        }
+                        [array addObject:friend];
+                        
+                        // We've found the first friend up, so stop scanning further up:
+                        break;              /* BREAK */
+                    }
+                }
+            }
+        }
+    }
+    
+    return columns;     /* RETURN array with all friends moved down, organized by column */
+}
+
 @end
