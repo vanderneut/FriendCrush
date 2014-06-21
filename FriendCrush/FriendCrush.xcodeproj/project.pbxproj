@@ -31,6 +31,7 @@
 		03B225E71953C50900FC982B /* Ka-Ching.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03B225E11953C50900FC982B /* Ka-Ching.wav */; };
 		03B225E81953C50900FC982B /* Mining by Moonlight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 03B225E21953C50900FC982B /* Mining by Moonlight.mp3 */; };
 		03B225E91953C50900FC982B /* Scrape.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03B225E31953C50900FC982B /* Scrape.wav */; };
+		03DF12341954512400EDB338 /* EVChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF12331954512400EDB338 /* EVChain.m */; };
 		03DF9B85194BF4B100B136C8 /* EVFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B84194BF4B100B136C8 /* EVFriend.m */; };
 		03DF9B88194BF84900B136C8 /* EVLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B87194BF84900B136C8 /* EVLevel.m */; };
 		03DF9B8A194C09E400B136C8 /* Levels in Resources */ = {isa = PBXBuildFile; fileRef = 03DF9B89194C09E400B136C8 /* Levels */; };
@@ -79,6 +80,8 @@
 		03B225E11953C50900FC982B /* Ka-Ching.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Ka-Ching.wav"; sourceTree = "<group>"; };
 		03B225E21953C50900FC982B /* Mining by Moonlight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mining by Moonlight.mp3"; sourceTree = "<group>"; };
 		03B225E31953C50900FC982B /* Scrape.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Scrape.wav; sourceTree = "<group>"; };
+		03DF12321954512400EDB338 /* EVChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVChain.h; sourceTree = "<group>"; };
+		03DF12331954512400EDB338 /* EVChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVChain.m; sourceTree = "<group>"; };
 		03DF9B83194BF4B100B136C8 /* EVFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFriend.h; sourceTree = "<group>"; };
 		03DF9B84194BF4B100B136C8 /* EVFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFriend.m; sourceTree = "<group>"; };
 		03DF9B86194BF84900B136C8 /* EVLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVLevel.h; sourceTree = "<group>"; };
@@ -167,6 +170,8 @@
 				03DF9B8C194C0A4C00B136C8 /* EVTile.m */,
 				034864C2194DBFE4006FB717 /* EVSwap.h */,
 				034864C3194DBFE4006FB717 /* EVSwap.m */,
+				03DF12321954512400EDB338 /* EVChain.h */,
+				03DF12331954512400EDB338 /* EVChain.m */,
 			);
 			path = FriendCrush;
 			sourceTree = "<group>";
@@ -320,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				031CE3BC194BEB6A00DEC43B /* EVViewController.m in Sources */,
+				03DF12341954512400EDB338 /* EVChain.m in Sources */,
 				034864C4194DBFE4006FB717 /* EVSwap.m in Sources */,
 				03DF9B88194BF84900B136C8 /* EVLevel.m in Sources */,
 				03DF9B8D194C0A4D00B136C8 /* EVTile.m in Sources */,

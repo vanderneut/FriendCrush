@@ -375,4 +375,127 @@ EVTile *_tiles[NumColumns][NumRows];
     return [self.possibleSwaps containsObject:swap];
 }
 
+
+#pragma mark - Matches/chains
+
+-(NSSet *)removeMatches
+{
+    NSSet *horizontalChains = [self detectHorizontalMatches];
+    NSSet *verticalChains   = [self detectVerticalMatches];
+    
+    NSLog(@"Horizontal matches: %@", horizontalChains);
+    NSLog(@"Verical matches   : %@", verticalChains);
+    
+    // Return the combined set of horizontal and vertical chains:
+    return [horizontalChains setByAddingObjectsFromSet:verticalChains];
+}
+
+/*!
+ To detect horizontal matches, go through the whole grid starting at the bottom
+ left, looking at each friend. A friend starts a horizontal chain when it has at 
+ least two of the same friends directly to the right of it.
+ */
+-(NSSet *)detectHorizontalMatches
+{
+    // Create a new set to hold any horizontal chains:
+    NSMutableSet *set = [NSMutableSet set];
+    
+    // Loop through rows and columns. We can skip the rightmost two columns, since
+    // there are not enough friends on the right of those to make new chains.
+    for (NSInteger row = 0; row < NumRows; row++)
+    {
+        for (NSInteger column = 0; column < NumColumns - 2; /* no increment here - done inside loop instead */)
+        {
+            BOOL thisFriendIsStartOfChain = NO;
+            if (_friends[column][row])      // skip over gaps in the level map
+            {
+                NSInteger matchType = _friends[column][row].friendType;
+                
+                // Check whether at least next two on right are of same type:
+                if (_friends[column + 1][row].friendType == matchType &&
+                    _friends[column + 2][row].friendType == matchType)
+                {
+                    // Found chain of 3 or more. Create chain object holding the right length:
+                    thisFriendIsStartOfChain = YES;
+                    EVChain *chain = [[EVChain alloc] init];
+                    chain.chainType = EVChainTypeHorizontal;
+                    do
+                    {
+                        [chain addFriend:_friends[column][row]];
+                        column++;
+                    }
+                    while (column < NumColumns && _friends[column][row].friendType == matchType);
+                    
+                    // Add this chain to the set:
+                    [set addObject:chain];
+                }
+            }
+            
+            // If no chain for this friend, go to next column. When chain for
+            // this friend, then column index already incremented above.
+            if (!thisFriendIsStartOfChain)
+            {
+                column++;
+            }
+        }
+    }
+    
+    return set;
+}
+
+
+/*!
+ To detect vertical matches, go through the whole grid starting at the bottom
+ left, looking at each friend. A friend starts a vertical chain when it has at 
+ least two of the same friends directly above it.
+ */
+-(NSSet *)detectVerticalMatches
+{
+    // Create a new set to hold any vertical chains:
+    NSMutableSet *set = [NSMutableSet set];
+    
+    // Loop through rows and columns. We can skip the topmost two rows, since
+    // there are not enough friends above those to make new chains.
+    for (NSInteger row = 0; row < NumRows - 2; /* no increment here - done inside loop instead */)
+    {
+        for (NSInteger column = 0; column < NumColumns; column++)
+        {
+            BOOL thisFriendIsStartOfChain = NO;
+            if (_friends[column][row])      // skip over gaps in the level map
+            {
+                NSInteger matchType = _friends[column][row].friendType;
+                
+                // Check whether at least next two above are of same type:
+                if (_friends[column][row + 1].friendType == matchType &&
+                    _friends[column][row + 2].friendType == matchType)
+                {
+                    // Found chain of 3 or more. Create chain object holding the right length:
+                    thisFriendIsStartOfChain = YES;
+                    EVChain *chain = [[EVChain alloc] init];
+                    chain.chainType = EVChainTypeHorizontal;
+                    do
+                    {
+                        [chain addFriend:_friends[column][row]];
+                        row++;
+                    }
+                    while (row < NumRows && _friends[column][row].friendType == matchType);
+                    
+                    // Add this chain to the set:
+                    [set addObject:chain];
+                }
+            }
+            
+            // If no chain for this friend, go to next row. When chain for
+            // this friend, then row index already incremented above.
+            if (!thisFriendIsStartOfChain)
+            {
+                row++;
+            }
+        }
+    }
+    
+    return set;
+}
+
+
 @end

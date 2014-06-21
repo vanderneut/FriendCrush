@@ -51,7 +51,14 @@
                  isPossibleSwap:possibleSwap
                      completion:^
          {
-             self.view.userInteractionEnabled = YES;
+             if (possibleSwap)
+             {
+                 [self handleMatches];
+             }
+             else
+             {
+                 self.view.userInteractionEnabled = YES;
+             }
          }];
     };
     self.scene.swipeHandler = block;
@@ -75,6 +82,11 @@
 {
     NSSet *newFriends = [self.level shuffle];
     [self.scene addSpritesForFriends:newFriends];
+}
+
+-(void)handleMatches
+{
+    NSSet *chains = [self.level removeMatches];
 }
 
 #pragma mark - Misc.
