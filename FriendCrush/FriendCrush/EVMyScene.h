@@ -44,4 +44,13 @@
 -(void)animateFallingFriends:(NSArray *)columns
                   completion:(dispatch_block_t)completion;
 
+/*!
+ Animates sprites for the new sprites that drop into the level to fill the gaps 
+ left behind at the top of the columns by the friends that fell into the empty
+ tiles left behind by the chains of matched friends that have disappeared from
+ the board.
+ */
+-(void)animateNewFriends:(NSArray *)columns
+              completion:(dispatch_block_t)completion;
+
 @end

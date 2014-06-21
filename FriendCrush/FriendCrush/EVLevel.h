@@ -45,4 +45,11 @@ static const NSInteger NumRows = 9;
  */
 -(NSArray *)fillHoles;
 
+/*!
+ Add new friends to fill gaps left behind by falling friends. Scans each column
+ from the top down, until it fiends a friend. Any empty tiles above that friend
+ will be filled with new friends.
+ */
+-(NSArray *)topUpFriends;
+
 @end

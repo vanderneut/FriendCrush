@@ -91,10 +91,14 @@
     [self.scene animateMatchedFriends:chains
                            completion:^
      {
-         NSArray *columns = [self.level fillHoles];
-         [self.scene animateFallingFriends:columns completion:^
+         NSArray *columnsToFill = [self.level fillHoles];
+         [self.scene animateFallingFriends:columnsToFill completion:^
          {
-             self.view.userInteractionEnabled = YES;
+             NSArray *columnsToTopUp = [self.level topUpFriends];
+             [self.scene animateNewFriends:columnsToTopUp completion:^
+             {
+                 self.view.userInteractionEnabled = YES;
+             }];
          }];
      }];
 }

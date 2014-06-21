@@ -569,4 +569,48 @@ EVTile *_tiles[NumColumns][NumRows];
     return columns;     /* RETURN array with all friends moved down, organized by column */
 }
 
+-(NSArray *)topUpFriends
+{
+    NSMutableArray *columns = [NSMutableArray array];
+    NSUInteger friendType = 0;
+    
+    for (NSInteger column = 0; column < NumColumns; column++)
+    {
+        NSMutableArray *array;
+        
+        // Starting at top, go down column till we find a friend:
+        for (NSInteger row = NumRows - 1; row >= 0 && !_friends[column][row]; row--)
+        {
+            // Only create friend when there is a tile, when there is not a gap in the level:
+            if (_tiles[column][row])
+            {
+                // Pick random new friend type:
+                friendType = arc4random_uniform(NumFriendTypes) + 1;
+                
+//                // Create random new friend that's different from last one:
+//                NSUInteger newFriendType;
+//                do
+//                {
+//                    newFriendType = arc4random_uniform(NumFriendTypes) + 1;
+//                }
+//                while (newFriendType == friendType);
+//                friendType = newFriendType;
+
+                // Create the new friend with the selected type:
+                EVFriend *friend = [self createFriendAtColumn:column andRow:row withType:friendType];
+                
+                // Add this friend to the array (create array first if necessary):
+                if (!array)
+                {
+                    array = [NSMutableArray array];
+                    [columns addObject:array];
+                }
+                [array addObject:friend];
+            }
+        }
+    }
+    
+    return columns;     /* RETURN the new friends, organized by column */
+}
+
 @end

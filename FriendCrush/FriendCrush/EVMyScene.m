@@ -407,4 +407,50 @@ static const CGFloat TileHeight = 36.0;
                                          [SKAction runBlock:completion]]]];
 }
 
+-(void)animateNewFriends:(NSArray *)columns
+              completion:(dispatch_block_t)completion
+{
+    // Only call the completion block after all animations are complete. The
+    // duration of the total animation depends on the number of friends to
+    // animate, so this duration will be calculated below.
+    __block NSTimeInterval totalAnimationDuration = 0;
+    
+    for (NSArray *array in columns)
+    {
+        // New friends always drop in from directly above the top row:
+        NSInteger startRow = NumRows; // <- isn't that more straightforward? -- instead of: ((EVFriend *)[array firstObject]).row + 1;
+        
+        [array enumerateObjectsUsingBlock:^(EVFriend *friend, NSUInteger idx, BOOL *stop)
+         {
+             // Set the starting position for the sprite animation - above top row:
+             friend.sprite = [SKSpriteNode spriteNodeWithImageNamed:friend.spriteName];
+             friend.sprite.position = [self getCGPointForColumn:friend.column andRow:startRow];     // <- NOTE: startRow instead of friend.row here
+             [self.friendsLayer addChild:friend.sprite];
+             
+             // Animation delay is longer for higher friends, which are later in the array:
+             NSTimeInterval delay = 0.1 + 0.2 * (array.count - idx - 1);
+             
+             // Animation duration is longer for friends that have to fall faster (0.1 per tile):
+             NSTimeInterval duration = (startRow - friend.row) * 0.1;
+             
+             // Ensure that total animation duration covers whatever animation takes the longest:
+             totalAnimationDuration = MAX(delay + duration, totalAnimationDuration);
+             
+             // Perform animation: delay, movement, sound effect:
+             CGPoint newPosition = [self getCGPointForColumn:friend.column andRow:friend.row];      // <- NOTE: friend.row for the destination
+             SKAction *moveAction = [SKAction moveTo:newPosition duration:duration];
+             moveAction.timingMode = SKActionTimingEaseIn;
+             friend.sprite.alpha = 0.0;
+             [friend.sprite runAction:[SKAction sequence:@[[SKAction waitForDuration:delay],
+                                                           [SKAction group:@[[SKAction fadeInWithDuration:0.05],
+                                                                             moveAction,
+                                                                             self.fallingFriendSound]]]]];
+         }];
+    }
+    
+    // Allow gameplay to continue once all the new friends have appeared and fallen into place:
+    [self runAction:[SKAction sequence:@[[SKAction waitForDuration:totalAnimationDuration],
+                                         [SKAction runBlock:completion]]]];
+}
+
 @end
