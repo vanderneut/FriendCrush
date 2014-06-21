@@ -32,4 +32,6 @@ static const NSInteger NumRows = 9;
 
 -(NSSet *)removeMatches;
 
+-(NSString *)friendsToString;
+
 @end

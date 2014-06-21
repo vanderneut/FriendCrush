@@ -31,4 +31,7 @@
     isPossibleSwap:(BOOL)possibleSwap
         completion:(dispatch_block_t)completion;
 
+-(void)animateMatchedFriends:(NSSet *)chains
+                  completion:(dispatch_block_t)completion;
+
 @end

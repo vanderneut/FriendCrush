@@ -338,9 +338,38 @@ static const CGFloat TileHeight = 36.0;
                          }];
 }
 
-//-(void)update:(CFTimeInterval)currentTime
-//{
-//    /* Called before each frame is rendered */
-//}
+-(void)animateMatchedFriends:(NSSet *)chains
+                  completion:(dispatch_block_t)completion
+{
+    const NSTimeInterval AnimationDuration = 0.2;
+    
+    for (EVChain *chain in chains)
+    {
+        for (EVFriend *friend in chain.friends)
+        {
+            // Any friend could be part of two chains (one horizontal and one vertical),
+            // but we only want to add one animation to the sprite. This check ensures
+            // that we only animate the sprite once:
+            if (friend.sprite)
+            {
+                // Shrink the sprite, and remove it when animation is done:
+                SKAction *scaleAction = [SKAction scaleTo:0.1 duration:AnimationDuration];
+                scaleAction.timingMode = SKActionTimingEaseOut;
+                [friend.sprite runAction:[SKAction sequence:@[scaleAction, [SKAction removeFromParent]]]];
+                
+                // Unlink sprite from the friend right away now (so we don't trigger additional animations on it):
+                friend.sprite = nil;
+            }
+        }
+    }
+    
+    // Play Match sound effect:
+    [self runAction:self.matchSound];
+    
+    // Continue with the rest of the game after the animations have finished:
+    [self runAction:[SKAction sequence:@[[SKAction waitForDuration:AnimationDuration],
+                                         [SKAction runBlock:completion]]]];
+}
+
 
 @end

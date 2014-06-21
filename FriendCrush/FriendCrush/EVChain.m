@@ -9,9 +9,9 @@
 #import "EVChain.h"
 
 @implementation EVChain
-
-NSMutableArray *_friends;
-
+{
+    NSMutableArray *_friends;
+}
 
 -(void)addFriend:(EVFriend *)friend
 {

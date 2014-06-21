@@ -34,7 +34,7 @@
     self.scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Load the level:
-    self.level = [[EVLevel alloc] initWithFile:@"Levels/Level_4"];
+    self.level = [[EVLevel alloc] initWithFile:@"Levels/Level_1"];
     self.scene.level = self.level;
     [self.scene addTiles];
     
@@ -87,6 +87,12 @@
 -(void)handleMatches
 {
     NSSet *chains = [self.level removeMatches];
+    
+    [self.scene animateMatchedFriends:chains
+                           completion:^
+     {
+         self.view.userInteractionEnabled = YES;
+     }];
 }
 
 #pragma mark - Misc.

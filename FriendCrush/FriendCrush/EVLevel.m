@@ -21,6 +21,19 @@
  */
 EVFriend *_friends[NumColumns][NumRows];
 
+-(NSString *)friendsToString
+{
+    NSMutableString *string = [NSMutableString stringWithString:@"\n_friends:"];
+    for (NSInteger column = 0; column < NumColumns; column++)
+    {
+        for (NSInteger row = 0; row < NumRows; row++)
+        {
+            [string appendString:[NSString stringWithFormat:@"\n  [%d][%d] >> %@", column, row, _friends[column][row]]];
+        }
+    }
+    return string;
+}
+
 /*!
  Specifies level map: 1 for locations that can hold a friend, 0 for locations 
  where no friend can go.
@@ -383,8 +396,9 @@ EVTile *_tiles[NumColumns][NumRows];
     NSSet *horizontalChains = [self detectHorizontalMatches];
     NSSet *verticalChains   = [self detectVerticalMatches];
     
-    NSLog(@"Horizontal matches: %@", horizontalChains);
-    NSLog(@"Verical matches   : %@", verticalChains);
+    // Any friends forming chains can be removed from the board:
+    [self removeFriends:horizontalChains];
+    [self removeFriends:verticalChains];
     
     // Return the combined set of horizontal and vertical chains:
     return [horizontalChains setByAddingObjectsFromSet:verticalChains];
@@ -454,11 +468,11 @@ EVTile *_tiles[NumColumns][NumRows];
     // Create a new set to hold any vertical chains:
     NSMutableSet *set = [NSMutableSet set];
     
-    // Loop through rows and columns. We can skip the topmost two rows, since
+    // Loop through columns and rows. We can skip the topmost two rows, since
     // there are not enough friends above those to make new chains.
-    for (NSInteger row = 0; row < NumRows - 2; /* no increment here - done inside loop instead */)
+    for (NSInteger column = 0; column < NumColumns; column++)
     {
-        for (NSInteger column = 0; column < NumColumns; column++)
+        for (NSInteger row = 0; row < NumRows - 2;  /* no increment here - done inside loop instead */)
         {
             BOOL thisFriendIsStartOfChain = NO;
             if (_friends[column][row])      // skip over gaps in the level map
@@ -497,5 +511,15 @@ EVTile *_tiles[NumColumns][NumRows];
     return set;
 }
 
+-(void)removeFriends:(NSSet *)chains
+{
+    for (EVChain *chain in chains)
+    {
+        for (EVFriend *friend in chain.friends)
+        {
+            _friends[friend.column][friend.row] = nil;
+        }
+    }
+}
 
 @end
