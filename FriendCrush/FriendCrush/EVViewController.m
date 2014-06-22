@@ -106,10 +106,13 @@
     
     // Create the starting collection of friends:
     [self shuffle];
+    [self.scene animateLevelStart];
 }
 
 -(void)shuffle
 {
+    [self.scene removeAllFriendSprites];
+
     NSSet *newFriends = [self.level shuffle];
     [self.scene addSpritesForFriends:newFriends];
 }
@@ -194,6 +197,7 @@
 
 -(void)showLevelEnd
 {
+    [self.scene animateLevelEnd];
     self.scene.userInteractionEnabled = NO;
     self.gameOverPanel.hidden = NO;
     

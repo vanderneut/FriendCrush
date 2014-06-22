@@ -60,6 +60,7 @@ static const CGFloat TileHeight = 36.0;
         
         // Game layer:
         self.gameLayer = [SKNode node];
+        self.gameLayer.hidden = YES;        // hide gamelayer until animating it into view
         [self addChild:self.gameLayer];
         
         CGPoint layerPosition = CGPointMake(-TileWidth * 0.5 * NumColumns, -TileHeight * 0.5 * NumRows);
@@ -487,6 +488,30 @@ static const CGFloat TileHeight = 36.0;
     [scoreLabel runAction:moveLabelAction completion:^{
         [scoreLabel removeFromParent];
     }];
+}
+
+-(void)animateLevelStart
+{
+    self.gameLayer.hidden = NO;
+    
+    self.gameLayer.position = CGPointMake(0, self.size.height);
+    SKAction *action = [SKAction moveBy:CGVectorMake(0, -self.size.height)
+                               duration:0.3];
+    action.timingMode = SKActionTimingEaseOut;
+    [self.gameLayer runAction:action];
+}
+
+-(void)animateLevelEnd
+{
+    SKAction *action = [SKAction moveBy:CGVectorMake(0, -self.size.height)
+                               duration:0.3];
+    action.timingMode = SKActionTimingEaseIn;
+    [self.gameLayer runAction:action];
+}
+
+-(void)removeAllFriendSprites
+{
+    [self.friendsLayer removeAllChildren];
 }
 
 @end

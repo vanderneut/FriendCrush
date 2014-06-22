@@ -53,4 +53,10 @@
 -(void)animateNewFriends:(NSArray *)columns
               completion:(dispatch_block_t)completion;
 
+-(void)animateLevelStart;
+
+-(void)animateLevelEnd;
+
+-(void)removeAllFriendSprites;
+
 @end
