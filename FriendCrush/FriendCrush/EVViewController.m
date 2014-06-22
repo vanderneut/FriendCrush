@@ -146,6 +146,7 @@
 
 -(void)beginNextTurn
 {
+    [self decrementMoves];
     [self.level resetComboMultiplier];
     [self.level detectPossibleSwaps];
     self.view.userInteractionEnabled = YES;
@@ -156,8 +157,17 @@
 -(void)updateLabels
 {
     self.targetScoreValueLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.level.targetScore];
-    self.movesValuesLabel.text      = [NSString stringWithFormat:@"%lu", (unsigned long)self.level.maximumMoves];
+    self.movesValuesLabel.text      = [NSString stringWithFormat:@"%lu", (unsigned long)self.remainingMovesCount];
     self.scoreValueLabel.text       = [NSString stringWithFormat:@"%lu", (unsigned long)self.score];
+}
+
+-(void)decrementMoves
+{
+    if (self.remainingMovesCount > 0)
+    {
+        self.remainingMovesCount--;
+        [self updateLabels];
+    }
 }
 
 #pragma mark - Misc.
