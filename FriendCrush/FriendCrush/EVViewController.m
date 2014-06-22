@@ -95,6 +95,7 @@
     self.remainingMovesCount = self.level.maximumMoves;
     self.score = 0;
     [self updateLabels];
+    [self.level resetComboMultiplier];
     
     // Create the starting collection of friends:
     [self shuffle];
@@ -145,6 +146,7 @@
 
 -(void)beginNextTurn
 {
+    [self.level resetComboMultiplier];
     [self.level detectPossibleSwaps];
     self.view.userInteractionEnabled = YES;
 }

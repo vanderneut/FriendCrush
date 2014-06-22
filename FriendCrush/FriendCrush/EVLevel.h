@@ -62,4 +62,11 @@ static const NSInteger NumRows = 9;
  */
 -(NSArray *)topUpFriends;
 
+/*!
+ At the start of each turn, reset the chain combo multiplier. This property
+ counts the number of chains created in a single move, and is applied to each
+ chain score as a multiplier.
+ */
+-(void)resetComboMultiplier;
+
 @end

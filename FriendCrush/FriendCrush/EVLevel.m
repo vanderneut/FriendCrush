@@ -12,6 +12,12 @@
 
 @property (strong, nonatomic) NSSet *possibleSwaps;
 
+/*!
+ When making more than one chain in a single move, apply a combo multiplier to 
+ the score for a nice bonus -- the more chains, the nicer bonus.
+ */
+@property (assign, nonatomic) NSUInteger comboMultiplier;
+
 @end
 
 @implementation EVLevel
@@ -619,15 +625,25 @@ EVTile *_tiles[NumColumns][NumRows];
 /*!
  Standard chain of 3 is 50 points. Any additional friend to the chain doubles 
  the score: 4 = 100, 5 = 200, etc.
+ 
+ When multiple chains in a single move, then the score gets multiplied by the 
+ number of chains.
  */
 -(void)calculateScores:(NSSet *)chains
 {
     for (EVChain *chain in chains)
     {
         NSUInteger numberOfFriendsInChain = chain.friends.count;
-        chain.score = 75 * pow(2, numberOfFriendsInChain - 3);
-        NSLog(@"chain score is %lu for %d friends in %@", (unsigned long)chain.score, numberOfFriendsInChain, chain);
+        chain.score = 75 * pow(2, numberOfFriendsInChain - 3) * self.comboMultiplier;
+        self.comboMultiplier++;     // increment for next chain
+        
+        NSLog(@"chain score with combo multiplier of %d is %lu for %d friends in %@", self.comboMultiplier, (unsigned long)chain.score, numberOfFriendsInChain, chain);
     }
+}
+
+-(void)resetComboMultiplier
+{
+    self.comboMultiplier = 1;
 }
 
 @end
