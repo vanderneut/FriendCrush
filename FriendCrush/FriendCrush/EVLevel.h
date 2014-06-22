@@ -30,6 +30,13 @@ static const NSInteger NumRows = 9;
 
 -(BOOL)isPossibleSwap:(EVSwap *)swap;
 
+/*!
+ Given the current set of friends and their positions in the level, now generate
+ a complete mapping of all the swaps that are valid swaps. Valid swaps are those
+ that lead to chains of at least three of the same friends in a row or column.
+ */
+-(void)detectPossibleSwaps;
+
 -(NSSet *)removeMatches;
 
 /*!

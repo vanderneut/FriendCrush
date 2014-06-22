@@ -87,7 +87,15 @@
 -(void)handleMatches
 {
     NSSet *chains = [self.level removeMatches];
+
+    // We are done when there aren't any chains left to handle:
+    if (!chains || !chains.count)
+    {
+        [self beginNextTurn];
+        return;                     /* RETURN when no chains left */
+    }
     
+    // There are chains of matching friends that we need to take care of:
     [self.scene animateMatchedFriends:chains
                            completion:^
      {
@@ -97,10 +105,18 @@
              NSArray *columnsToTopUp = [self.level topUpFriends];
              [self.scene animateNewFriends:columnsToTopUp completion:^
              {
-                 self.view.userInteractionEnabled = YES;
+                 // Call this method again to take care of any new chains that
+                 // may have formed from the falling and new friends:
+                 [self handleMatches];
              }];
          }];
      }];
+}
+
+-(void)beginNextTurn
+{
+    [self.level detectPossibleSwaps];
+    self.view.userInteractionEnabled = YES;
 }
 
 #pragma mark - Misc.
