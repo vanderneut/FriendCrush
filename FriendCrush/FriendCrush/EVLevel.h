@@ -16,6 +16,9 @@ static const NSInteger NumRows = 9;
 
 @interface EVLevel : NSObject
 
+@property (assign, nonatomic) NSUInteger targetScore;
+@property (assign, nonatomic) NSUInteger maximumMoves;
+
 -(instancetype)initWithFile:(NSString *)fileName;
 
 -(NSSet *)shuffle;

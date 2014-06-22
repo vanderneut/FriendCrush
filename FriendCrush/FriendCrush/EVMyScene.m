@@ -300,7 +300,11 @@ static const CGFloat TileHeight = 36.0;
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self hideSelectionIndicator];
+    if (self.selectionSprite.parent && self.swipeFromColumn != NSNotFound)
+    {
+        [self hideSelectionIndicator];
+    }
+
     self.swipeFromColumn = self.swipeFromRow = NSNotFound;
 }
 
@@ -323,6 +327,8 @@ static const CGFloat TileHeight = 36.0;
     NSLog(@"High-lighting %@...", friend);
     
     SKTexture *texture = [SKTexture textureWithImageNamed:[friend highlightedSpriteName]];
+    self.selectionSprite.size = CGSizeMake(20.0f, 20.0f);
+    CGSize testSize = texture.size;
     self.selectionSprite.size = texture.size;
     [self.selectionSprite runAction:[SKAction setTexture:texture]];
     

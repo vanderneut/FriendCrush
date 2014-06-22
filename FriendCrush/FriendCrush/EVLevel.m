@@ -83,6 +83,10 @@ EVTile *_tiles[NumColumns][NumRows];
                 }
             }];
         }];
+        
+        // Also set the target score and maximum moves:
+        self.targetScore  = [dictionary[@"targetScore"] unsignedIntegerValue];
+        self.maximumMoves = [dictionary[@"moves"] unsignedIntegerValue];
     }
     return self;
 }
@@ -395,8 +399,10 @@ EVTile *_tiles[NumColumns][NumRows];
     [self removeFriends:horizontalChains];
     [self removeFriends:verticalChains];
     
-    // Return the combined set of horizontal and vertical chains:
-    return [horizontalChains setByAddingObjectsFromSet:verticalChains];
+    // Combine horizontal and vertical chains, calculate scores, and return all chains:
+    NSSet *allChains = [horizontalChains setByAddingObjectsFromSet:verticalChains];
+    [self calculateScores:allChains];
+    return allChains;
 }
 
 /*!
@@ -606,6 +612,22 @@ EVTile *_tiles[NumColumns][NumRows];
     }
     
     return columns;     /* RETURN the new friends, organized by column */
+}
+
+#pragma mark - Scoring
+
+/*!
+ Standard chain of 3 is 50 points. Any additional friend to the chain doubles 
+ the score: 4 = 100, 5 = 200, etc.
+ */
+-(void)calculateScores:(NSSet *)chains
+{
+    for (EVChain *chain in chains)
+    {
+        NSUInteger numberOfFriendsInChain = chain.friends.count;
+        chain.score = 75 * pow(2, numberOfFriendsInChain - 3);
+        NSLog(@"chain score is %lu for %d friends in %@", (unsigned long)chain.score, numberOfFriendsInChain, chain);
+    }
 }
 
 @end

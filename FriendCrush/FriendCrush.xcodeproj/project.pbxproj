@@ -36,6 +36,7 @@
 		03DF9B88194BF84900B136C8 /* EVLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B87194BF84900B136C8 /* EVLevel.m */; };
 		03DF9B8A194C09E400B136C8 /* Levels in Resources */ = {isa = PBXBuildFile; fileRef = 03DF9B89194C09E400B136C8 /* Levels */; };
 		03DF9B8D194C0A4D00B136C8 /* EVTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DF9B8C194C0A4C00B136C8 /* EVTile.m */; };
+		03F7CBE81956A0BD0095299E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F7CBE71956A0BD0095299E /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		03DF9B89194C09E400B136C8 /* Levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Levels; sourceTree = "<group>"; };
 		03DF9B8B194C0A4C00B136C8 /* EVTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTile.h; sourceTree = "<group>"; };
 		03DF9B8C194C0A4C00B136C8 /* EVTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTile.m; sourceTree = "<group>"; };
+		03F7CBE71956A0BD0095299E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 				034864C3194DBFE4006FB717 /* EVSwap.m */,
 				03DF12321954512400EDB338 /* EVChain.h */,
 				03DF12331954512400EDB338 /* EVChain.m */,
+				03F7CBE71956A0BD0095299E /* Main.storyboard */,
 			);
 			path = FriendCrush;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				03DF9B8A194C09E400B136C8 /* Levels in Resources */,
 				03B225E51953C50900FC982B /* Drip.wav in Resources */,
 				031CE3B0194BEB6A00DEC43B /* InfoPlist.strings in Resources */,
+				03F7CBE81956A0BD0095299E /* Main.storyboard in Resources */,
 				03B225E81953C50900FC982B /* Mining by Moonlight.mp3 in Resources */,
 				03B225E91953C50900FC982B /* Scrape.wav in Resources */,
 				031CE3C3194BEB6A00DEC43B /* Images.xcassets in Resources */,

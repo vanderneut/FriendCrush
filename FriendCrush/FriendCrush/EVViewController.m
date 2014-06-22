@@ -15,6 +15,22 @@
 @property (strong, nonatomic) EVLevel *level;
 @property (strong, nonatomic) EVMyScene *scene;
 
+/*!
+ Scoring points
+ */
+@property (assign, nonatomic) NSUInteger remainingMovesCount;
+@property (assign, nonatomic) NSUInteger score;
+
+/*!
+ Storyboard
+ */
+@property (weak, nonatomic) IBOutlet UILabel *targetScoreHeaderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *targetScoreValueLabel;
+@property (weak, nonatomic) IBOutlet UILabel *movesHeaderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *movesValuesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *scoreHeaderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *scoreValueLabel;
+
 @end
 
 @implementation EVViewController
@@ -75,6 +91,12 @@
 
 -(void)beginGame
 {
+    // Initialize the scores:
+    self.remainingMovesCount = self.level.maximumMoves;
+    self.score = 0;
+    [self updateLabels];
+    
+    // Create the starting collection of friends:
     [self shuffle];
 }
 
@@ -95,10 +117,18 @@
         return;                     /* RETURN when no chains left */
     }
     
+    // We have chains, so add their scores to the total score:
+    for (EVChain *chain in chains)
+    {
+        self.score += chain.score;
+    }
+    
     // There are chains of matching friends that we need to take care of:
     [self.scene animateMatchedFriends:chains
                            completion:^
      {
+         [self updateLabels];
+         
          NSArray *columnsToFill = [self.level fillHoles];
          [self.scene animateFallingFriends:columnsToFill completion:^
          {
@@ -117,6 +147,15 @@
 {
     [self.level detectPossibleSwaps];
     self.view.userInteractionEnabled = YES;
+}
+
+#pragma mark - Scoring
+
+-(void)updateLabels
+{
+    self.targetScoreValueLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.level.targetScore];
+    self.movesValuesLabel.text      = [NSString stringWithFormat:@"%lu", (unsigned long)self.level.maximumMoves];
+    self.scoreValueLabel.text       = [NSString stringWithFormat:@"%lu", (unsigned long)self.score];
 }
 
 #pragma mark - Misc.
