@@ -50,7 +50,7 @@
     self.scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Load the level:
-    self.level = [[EVLevel alloc] initWithFile:@"Levels/Level_1"];
+    self.level = [[EVLevel alloc] initWithFile:@"Levels/Level_2"];
     self.scene.level = self.level;
     [self.scene addTiles];
     

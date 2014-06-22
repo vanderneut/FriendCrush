@@ -89,11 +89,15 @@ static const CGFloat TileHeight = 36.0;
 
 -(void)preloadResources
 {
+    // Preload sounds:
     self.swapSound          = [SKAction playSoundFileNamed:@"Chomp.wav" waitForCompletion:NO];
     self.invalidSwapSound   = [SKAction playSoundFileNamed:@"Error.wav" waitForCompletion:NO];
     self.matchSound         = [SKAction playSoundFileNamed:@"Ka-Ching.wav" waitForCompletion:NO];
     self.fallingFriendSound = [SKAction playSoundFileNamed:@"Scrape.wav" waitForCompletion:NO];
     self.addFriendSound     = [SKAction playSoundFileNamed:@"Drip.wav" waitForCompletion:NO];
+    
+    // Preload fonts:
+    [SKLabelNode labelNodeWithFontNamed:@"GillSans-BoldItalic"];
 }
 
 /*!
@@ -327,8 +331,6 @@ static const CGFloat TileHeight = 36.0;
     NSLog(@"High-lighting %@...", friend);
     
     SKTexture *texture = [SKTexture textureWithImageNamed:[friend highlightedSpriteName]];
-    self.selectionSprite.size = CGSizeMake(20.0f, 20.0f);
-    CGSize testSize = texture.size;
     self.selectionSprite.size = texture.size;
     [self.selectionSprite runAction:[SKAction setTexture:texture]];
     
@@ -339,9 +341,10 @@ static const CGFloat TileHeight = 36.0;
 -(void)hideSelectionIndicator
 {
     [self.selectionSprite runAction:[SKAction fadeOutWithDuration:0.3]
-                         completion:^{
-                             [SKAction removeFromParent];
-                         }];
+                         completion:^
+     {
+         [self.selectionSprite removeFromParent];
+     }];
 }
 
 -(void)animateMatchedFriends:(NSSet *)chains
@@ -351,6 +354,8 @@ static const CGFloat TileHeight = 36.0;
     
     for (EVChain *chain in chains)
     {
+        [self animatePointsScoreForChain:chain];
+        
         for (EVFriend *friend in chain.friends)
         {
             // Any friend could be part of two chains (one horizontal and one vertical),
@@ -457,6 +462,31 @@ static const CGFloat TileHeight = 36.0;
     // Allow gameplay to continue once all the new friends have appeared and fallen into place:
     [self runAction:[SKAction sequence:@[[SKAction waitForDuration:totalAnimationDuration],
                                          [SKAction runBlock:completion]]]];
+}
+
+-(void)animatePointsScoreForChain:(EVChain *)chain
+{
+    // Calculate the mid-point location of this chain:
+    EVFriend *firstFriend = [chain.friends firstObject];
+    EVFriend *lastFriend  = [chain.friends lastObject];
+    
+    CGPoint midPoint = CGPointMake(0.5 * (firstFriend.sprite.position.x + lastFriend.sprite.position.x),
+                                   0.5 * (firstFriend.sprite.position.y + lastFriend.sprite.position.y) - 8);
+
+    // Add a label for the score that slowly floats up:
+    SKLabelNode *scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"GillSans-BoldItalic"];
+    scoreLabel.fontColor = [SKColor whiteColor];
+    scoreLabel.fontSize = 16;
+    scoreLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)chain.score];
+    scoreLabel.position = midPoint;
+    scoreLabel.zPosition = 300;
+    [self.friendsLayer addChild:scoreLabel];
+    
+    SKAction *moveLabelAction = [SKAction moveBy:CGVectorMake(0, 5) duration:0.6];
+    moveLabelAction.timingMode = SKActionTimingEaseOut;
+    [scoreLabel runAction:moveLabelAction completion:^{
+        [scoreLabel removeFromParent];
+    }];
 }
 
 @end
