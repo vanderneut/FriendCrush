@@ -201,14 +201,14 @@ EVTile *_tiles[NumColumns][NumRows];
             {
                 // Can we swap this friend with friend on the RIGHT?
                 
-                NSLog(@"---------------------------------------------------------\ndetectPossibleSwaps for %@", friend);
+//                NSLog(@"---------------------------------------------------------\ndetectPossibleSwaps for %@", friend);
                 
                 if (column < NumColumns - 1)
                 {
                     EVFriend *friendOnRight = _friends[column + 1][row];
                     if (friendOnRight)
                     {
-                        NSLog(@"detectPossibleSwaps for %@ has friend on right: %@", friend, friendOnRight);
+//                        NSLog(@"detectPossibleSwaps for %@ has friend on right: %@", friend, friendOnRight);
 
                         // Swap them:
                         _friends[column][row] = friendOnRight;
@@ -222,7 +222,7 @@ EVTile *_tiles[NumColumns][NumRows];
                             EVSwap *swap = [[EVSwap alloc] init];
                             swap.friendA = friend;
                             swap.friendB = friendOnRight;
-                            NSLog(@"detectPossibleSwaps FOUND VALID SWAP with friend on RIGHT: %@", swap);
+//                            NSLog(@"detectPossibleSwaps FOUND VALID SWAP with friend on RIGHT: %@", swap);
                             [set addObject:swap];
                         }
                         
@@ -239,7 +239,7 @@ EVTile *_tiles[NumColumns][NumRows];
                     EVFriend *friendAbove = _friends[column][row + 1];
                     if (friendAbove)
                     {
-                        NSLog(@"detectPossibleSwaps for %@ has friend above: %@", friend, friendAbove);
+//                        NSLog(@"detectPossibleSwaps for %@ has friend above: %@", friend, friendAbove);
                         
                         // Swap them:
                         _friends[column][row] = friendAbove;
@@ -253,7 +253,7 @@ EVTile *_tiles[NumColumns][NumRows];
                             EVSwap *swap = [[EVSwap alloc] init];
                             swap.friendA = friend;
                             swap.friendB = friendAbove;
-                            NSLog(@"detectPossibleSwaps FOUND VALID SWAP with friend ABOVE: %@", swap);
+//                            NSLog(@"detectPossibleSwaps FOUND VALID SWAP with friend ABOVE: %@", swap);
                             [set addObject:swap];
                         }
                         
@@ -266,6 +266,7 @@ EVTile *_tiles[NumColumns][NumRows];
         }
     }
     
+    NSLog(@"Possible swaps: %@", set);
     self.possibleSwaps = set;
 }
 
@@ -289,7 +290,7 @@ EVTile *_tiles[NumColumns][NumRows];
          chainLengthHorizontal++)                   // ...and increment chain length
         ;                                           // (nothing left to do in loop)
     
-    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthHorizontal left:%d", column, row, chainLengthHorizontal);
+//    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthHorizontal left:%d", column, row, chainLengthHorizontal);
 
     // Calculate chain length to the right:
     for (NSInteger i = column + 1;                  // start on right of current friend
@@ -301,7 +302,7 @@ EVTile *_tiles[NumColumns][NumRows];
          chainLengthHorizontal++)                   // ...and increment chain length
         ;                                           // (nothing left to do in loop)
     
-    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthHorizontal total:%d", column, row, chainLengthHorizontal);
+//    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthHorizontal total:%d", column, row, chainLengthHorizontal);
     
     // If left and right combined horizontal length is at least 3, then return YES:
     if (chainLengthHorizontal >= 3) return YES;     /* RETURN YES when chain found */
@@ -318,7 +319,7 @@ EVTile *_tiles[NumColumns][NumRows];
          chainLengthVertical++)                     // ...and increment chain length
         ;                                           // (nothing left to do in loop)
     
-    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthVertical down:%d", column, row, chainLengthVertical);
+//    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthVertical down:%d", column, row, chainLengthVertical);
 
     // Calculate chain length upward:
     for (NSInteger i = row + 1;                     // start on row above current friend
@@ -330,7 +331,7 @@ EVTile *_tiles[NumColumns][NumRows];
          chainLengthVertical++)                     // ...and increment chain length
         ;                                           // (nothing left to do in loop)
     
-    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthVertical total:%d", column, row, chainLengthVertical);
+//    NSLog(@"\thasChainAtColumn:%d andRow:%d -> chainLengthVertical total:%d", column, row, chainLengthVertical);
     
     // If up and downward combined vertical length is at least 3, then return YES:
     return (chainLengthVertical >= 3);              /* RETURN YES when chain found, NO otherwise */

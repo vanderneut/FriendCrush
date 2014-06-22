@@ -30,6 +30,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *movesValuesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreHeaderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreValueLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *gameOverPanel;
+
+/*!
+ Gestures
+ */
+@property (strong, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
 
 @end
 
@@ -44,13 +50,14 @@
     skView.showsFPS = YES;
     skView.showsNodeCount = YES;
     skView.multipleTouchEnabled = NO;
+    self.gameOverPanel.hidden = YES;
     
     // Create and configure the scene:
     self.scene = [EVMyScene sceneWithSize:skView.bounds.size];
     self.scene.scaleMode = SKSceneScaleModeAspectFill;
     
     // Load the level:
-    self.level = [[EVLevel alloc] initWithFile:@"Levels/Level_2"];
+    self.level = [[EVLevel alloc] initWithFile:@"Levels/Level_1"];
     self.scene.level = self.level;
     [self.scene addTiles];
     
@@ -168,6 +175,40 @@
         self.remainingMovesCount--;
         [self updateLabels];
     }
+    else
+    {
+        if (self.score >= self.level.targetScore)
+        {
+            self.gameOverPanel.image = [UIImage imageNamed:@"LevelComplete"];
+            [self showLevelEnd];
+        }
+        else
+        {
+            self.gameOverPanel.image = [UIImage imageNamed:@"GameOver"];
+            [self showLevelEnd];
+        }
+    }
+}
+
+#pragma mark - End of game
+
+-(void)showLevelEnd
+{
+    self.scene.userInteractionEnabled = NO;
+    self.gameOverPanel.hidden = NO;
+    
+    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                        action:@selector(hideLevelEnd)];
+    [self.view addGestureRecognizer:self.tapGestureRecognizer];
+}
+
+-(void)hideLevelEnd
+{
+    [self.view removeGestureRecognizer:self.tapGestureRecognizer];
+    self.gameOverPanel.hidden = YES;
+    self.scene.userInteractionEnabled = YES;
+    
+    [self beginGame];
 }
 
 #pragma mark - Misc.
