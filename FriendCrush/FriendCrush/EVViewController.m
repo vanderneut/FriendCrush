@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *scoreHeaderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreValueLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *gameOverPanel;
+@property (weak, nonatomic) IBOutlet UIButton *shuffleButton;
 
 /*!
  Gestures
@@ -162,6 +163,13 @@
     self.view.userInteractionEnabled = YES;
 }
 
+- (IBAction)onShuffleButtonTap:(id)sender
+{
+    [self shuffle];
+    [self decrementMoves];
+}
+
+
 #pragma mark - Scoring
 
 -(void)updateLabels
@@ -173,12 +181,10 @@
 
 -(void)decrementMoves
 {
-    if (self.remainingMovesCount > 0)
-    {
-        self.remainingMovesCount--;
-        [self updateLabels];
-    }
-    else
+    self.remainingMovesCount--;
+    [self updateLabels];
+    
+    if (!self.remainingMovesCount)
     {
         if (self.score >= self.level.targetScore)
         {
@@ -197,6 +203,7 @@
 
 -(void)showLevelEnd
 {
+    self.shuffleButton.hidden = YES;
     [self.scene animateLevelEnd];
     self.scene.userInteractionEnabled = NO;
     self.gameOverPanel.hidden = NO;
@@ -213,6 +220,7 @@
     self.scene.userInteractionEnabled = YES;
     
     [self beginGame];
+    self.shuffleButton.hidden = NO;
 }
 
 #pragma mark - Misc.

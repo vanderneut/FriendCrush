@@ -112,6 +112,15 @@ static const CGFloat TileHeight = 36.0;
         sprite.position = [self getCGPointForColumn:friend.column andRow:friend.row];
         [self.friendsLayer addChild:sprite];
         friend.sprite = sprite;
+        
+        // Animate the appearance of this friend sprite, so upon shuffle it's less abrupt:
+        friend.sprite.alpha = 0.0;
+        friend.sprite.xScale = friend.sprite.yScale = 0.0;
+        [friend.sprite runAction:[SKAction sequence:@[[SKAction waitForDuration:0.2 withRange:0.4],
+                                                      [SKAction group:@[[SKAction fadeInWithDuration:0.2],
+                                                                        [SKAction scaleTo:1.0 duration:0.2]]]]]];
+//        friend.sprite.alpha = 0.5;
+//        [friend.sprite runAction:[SKAction fadeInWithDuration:0.5]];
     }
 }
 
