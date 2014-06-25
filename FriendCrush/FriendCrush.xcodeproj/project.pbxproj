@@ -24,6 +24,7 @@
 		031CE3D4194BEB6A00DEC43B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 031CE3D2194BEB6A00DEC43B /* InfoPlist.strings */; };
 		031CE3D6194BEB6A00DEC43B /* FriendCrushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 031CE3D5194BEB6A00DEC43B /* FriendCrushTests.m */; };
 		031CE3E0194BEC0700DEC43B /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 031CE3DF194BEC0700DEC43B /* Sprites.atlas */; };
+		032FDABA195B2DC3008AFBA3 /* Grid.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 032FDAB9195B2DC3008AFBA3 /* Grid.atlas */; };
 		034864C4194DBFE4006FB717 /* EVSwap.m in Sources */ = {isa = PBXBuildFile; fileRef = 034864C3194DBFE4006FB717 /* EVSwap.m */; };
 		03B225E41953C50900FC982B /* Chomp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03B225DE1953C50900FC982B /* Chomp.wav */; };
 		03B225E51953C50900FC982B /* Drip.wav in Resources */ = {isa = PBXBuildFile; fileRef = 03B225DF1953C50900FC982B /* Drip.wav */; };
@@ -73,6 +74,7 @@
 		031CE3D3194BEB6A00DEC43B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		031CE3D5194BEB6A00DEC43B /* FriendCrushTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendCrushTests.m; sourceTree = "<group>"; };
 		031CE3DF194BEC0700DEC43B /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
+		032FDAB9195B2DC3008AFBA3 /* Grid.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Grid.atlas; sourceTree = "<group>"; };
 		034864C2194DBFE4006FB717 /* EVSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSwap.h; sourceTree = "<group>"; };
 		034864C3194DBFE4006FB717 /* EVSwap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSwap.m; sourceTree = "<group>"; };
 		03B225DE1953C50900FC982B /* Chomp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Chomp.wav; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				031CE3BD194BEB6A00DEC43B /* EVMyScene.h */,
 				031CE3BE194BEB6A00DEC43B /* EVMyScene.m */,
 				031CE3C2194BEB6A00DEC43B /* Images.xcassets */,
+				032FDAB9195B2DC3008AFBA3 /* Grid.atlas */,
 				031CE3DF194BEC0700DEC43B /* Sprites.atlas */,
 				031CE3AC194BEB6A00DEC43B /* Supporting Files */,
 				03DF9B89194C09E400B136C8 /* Levels */,
@@ -299,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				03DF9B8A194C09E400B136C8 /* Levels in Resources */,
+				032FDABA195B2DC3008AFBA3 /* Grid.atlas in Resources */,
 				03B225E51953C50900FC982B /* Drip.wav in Resources */,
 				031CE3B0194BEB6A00DEC43B /* InfoPlist.strings in Resources */,
 				03F7CBE81956A0BD0095299E /* Main.storyboard in Resources */,

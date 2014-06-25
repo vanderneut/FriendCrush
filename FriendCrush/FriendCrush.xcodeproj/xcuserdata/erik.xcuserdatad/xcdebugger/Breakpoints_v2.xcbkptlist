@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FriendCrush/EVMyScene.m"
-            timestampString = "425306830.244596"
+            timestampString = "425429307.818074"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
             landmarkName = "-animateSwap:isPossibleSwap:completion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FriendCrush/EVMyScene.m"
-            timestampString = "425306830.244596"
+            timestampString = "425429307.818074"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "342"
-            endingLineNumber = "342"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
             landmarkName = "-showSelectionIndicatorForFriend:"
             landmarkType = "5">
          </BreakpointContent>

@@ -44,6 +44,12 @@ static const CGFloat TileHeight = 36.0;
 @property (strong, nonatomic) SKAction *fallingFriendSound;
 @property (strong, nonatomic) SKAction *addFriendSound;
 
+/*!
+ Grid graphic fine tuning
+ */
+@property (strong, nonatomic) SKCropNode *cropLayer;
+@property (strong, nonatomic) SKNode *maskLayer;
+
 @end
 
 @implementation EVMyScene
@@ -70,10 +76,20 @@ static const CGFloat TileHeight = 36.0;
         self.tilesLayer.position = layerPosition;
         [self.gameLayer addChild:self.tilesLayer];
         
+        // Set up the crop layer:
+        self.cropLayer = [SKCropNode node];
+        [self.gameLayer addChild:self.cropLayer];
+        
+        // Set up the mask layer:
+        self.maskLayer = [SKNode node];
+        self.maskLayer.position = layerPosition;
+        self.cropLayer.maskNode = self.maskLayer;
+        
         // Layer to hold the friend images:
         self.friendsLayer = [SKNode node];
         self.friendsLayer.position = layerPosition;
-        [self.gameLayer addChild:self.friendsLayer];
+//        [self.cropLayer addChild:self.maskLayer];
+        [self.cropLayer addChild:self.friendsLayer];
         
         // Initialize the swipe starting column and row numbers:
         self.swipeFromColumn = self.swipeFromRow = NSNotFound;
@@ -136,8 +152,48 @@ static const CGFloat TileHeight = 36.0;
         {
             if ([self.level tileAtColumn:column andRow:row])
             {
-                SKSpriteNode *tileNode = [SKSpriteNode spriteNodeWithImageNamed:@"Tile"];
+                SKSpriteNode *tileNode = [SKSpriteNode spriteNodeWithImageNamed:@"MaskTile"];
                 tileNode.position = [self getCGPointForColumn:column andRow:row];
+                [self.maskLayer addChild:tileNode];
+            }
+        }
+    }
+    
+    for (NSInteger row = 0; row <= NumRows; row++)
+    {
+        for (NSInteger column = 0; column <= NumColumns; column++)
+        {
+            // IMPORTANT NOTE:
+            // These background tiles are centered on the corners _between_ the
+            // tiles. That way, their shape is entirely determined by whether
+            // there is a friend at the top left, top right, bottom left or
+            // bottom right of their position. Note also that because this is
+            // placed at the intersection of friend squares (instead of directly
+            // behind them), that the 0,0 origin of the background tiles is
+            // offset by -1,-1 compared to the friend coordinates.
+            
+            // Determine on which corners this tile has a friend next time:
+            BOOL topLeft     = (column > 0)          && (row < NumRows) && [self.level tileAtColumn:column - 1 andRow:row];
+            BOOL bottomLeft  = (column > 0)          && (row > 0)       && [self.level tileAtColumn:column - 1 andRow:row - 1];
+            BOOL topRight    = (column < NumColumns) && (row < NumRows) && [self.level tileAtColumn:column     andRow:row];
+            BOOL bottomRight = (column < NumColumns) && (row > 0)       && [self.level tileAtColumn:column     andRow:row - 1];
+            
+            // The tile background shapes are named 0 to 15, where the numbers
+            // correspond to the bitmask created by combining the four booleans:
+            NSUInteger tileNumber = topLeft | topRight << 1 | bottomLeft << 2 | bottomRight << 3;
+            
+//            NSLog(@"addTiles >> column %d, row %d >> tileNumber %d from: TL %d, BL %d, TR %d, BR %d", column, row, tileNumber, topLeft, bottomLeft, topRight, bottomRight);
+            
+            // Not drawn are tiles for bitMask values of 0 (no tiles), 6 and 9 (opposite tiles):
+            if (tileNumber && tileNumber != 6 && tileNumber != 9)
+            {
+                NSString *tileName = [NSString stringWithFormat:@"Tile_%d", tileNumber];
+                SKSpriteNode *tileNode = [SKSpriteNode spriteNodeWithImageNamed:tileName];
+                
+                CGPoint tilePosition = [self getCGPointForColumn:column andRow:row];
+                tilePosition.x   -= 0.5 * TileWidth;
+                tilePosition.y   -= 0.5 * TileHeight;
+                tileNode.position = tilePosition;
                 [self.tilesLayer addChild:tileNode];
             }
         }
