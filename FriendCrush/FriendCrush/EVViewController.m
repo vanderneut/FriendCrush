@@ -10,6 +10,12 @@
 #import "EVMyScene.h"
 #import "EVLevel.h"
 
+/*!
+ The main advantage of @import over #import is that you don’t need to add the 
+ framework to your project separately. Xcode will add it automatically.
+ */
+@import AVFoundation;
+
 @interface EVViewController()
 
 @property (strong, nonatomic) EVLevel *level;
@@ -37,6 +43,11 @@
  Gestures
  */
 @property (strong, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
+
+/*!
+ Muzak
+ */
+@property (strong, nonatomic) AVAudioPlayer *backgroundMusic;
 
 @end
 
@@ -89,6 +100,12 @@
     
     // Present the scene:
     [skView presentScene:self.scene];
+    
+    // Play background music:
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"Mining by Moonlight" withExtension:@"mp3"];
+    self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    self.backgroundMusic.numberOfLoops = -1;        // loop indefinitely
+    [self.backgroundMusic play];
     
     // Start the game:
     [self beginGame];
